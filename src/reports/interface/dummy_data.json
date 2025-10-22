@@ -1,0 +1,114 @@
+{
+  "reports": {
+    "1": {
+      "reportId": "1",
+      "name": "Q2 2025 Private Equity Report",
+      "date": "2025-09-30",
+      "metrics": {
+        "total_invested": 100000000,
+        "total_value": 150000000,
+        "moic": 1.5,
+        "irr": 0.12
+      }
+    }
+  },
+  "portfolio": [
+    {
+      "name": "TechFlow Solutions",
+      "type": "Buyout",
+      "industry": "Software & Technology",
+      "moic": "81.5",
+      "investment": "$2.0M",
+      "region": "North America",
+      "employees": 245,
+      "acquired_date": "3/14/2021"
+    },
+    {
+      "name": "MediCare Plus",
+      "type": "Growth Equity",
+      "industry": "Healthcare Services",
+      "moic": "53.5",
+      "investment": "$2.0M",
+      "region": "North America",
+      "employees": 160,
+      "acquired_date": "11/21/2020"
+    },
+    {
+      "name": "GreenEnergy Corp",
+      "type": "Buyout",
+      "industry": "Energy & Utilities",
+      "moic": "29.3",
+      "investment": "$2.0M",
+      "region": "North America",
+      "employees": 320,
+      "acquired_date": "6/9/2021"
+    }
+  ],
+  "moic": [
+    {
+      "company": "TechFlow Solutions",
+      "type": "Buyout",
+      "investment": "$2.0M",
+      "valuation": "$6.0M",
+      "years_hold": 3,
+      "moic": 3.0,
+      "status": "Active"
+    },
+    {
+      "company": "MediCare Plus",
+      "type": "Growth Equity",
+      "investment": "$2.0M",
+      "valuation": "$4.0M",
+      "years_hold": 4,
+      "moic": 2.0,
+      "status": "Exited"
+    },
+    {
+      "company": "GreenEnergy Corp",
+      "type": "Buyout",
+      "investment": "$2.0M",
+      "valuation": "$3.0M",
+      "years_hold": 5,
+      "moic": 1.5,
+      "status": "Active"
+    }
+  ],
+  "irr": [
+    {
+      "company": "TechFlow Solutions",
+      "type": "Buyout",
+      "investment": "$2.0M",
+      "valuation": "$6.0M",
+      "years_hold": 3,
+      "irr": 200,
+      "target_irr": 100
+    },
+    {
+      "company": "MediCare Plus",
+      "type": "Growth Equity",
+      "investment": "$2.0M",
+      "valuation": "$4.5M",
+      "years_hold": 4,
+      "irr": 170,
+      "target_irr": 100
+    },
+    {
+      "company": "GreenEnergy Corp",
+      "type": "Buyout",
+      "investment": "$2.0M",
+      "valuation": "$2.5M",
+      "years_hold": 5,
+      "irr": 128,
+      "target_irr": 130
+    },
+    {
+      "company": "CloudMatrix Inc",
+      "type": "Venture Capital",
+      "investment": "$1.5M",
+      "valuation": "$3.5M",
+      "years_hold": 6,
+      "irr": 120,
+      "target_irr": 130
+    }
+  ]
+}

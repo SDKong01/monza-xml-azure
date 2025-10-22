@@ -1,0 +1,60 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - "echo Logging in to Amazon ECR..."
+      - "ECR_REGISTRY=${ECR_REPOSITORY_URI%%/*}"
+      - "aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY"
+
+      - "echo Build started on $(date)"
+      - "echo Building the Docker image..."
+      - "REPOSITORY_URI=$ECR_REPOSITORY_URI"
+      - "COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)"
+      - "IMAGE_TAG=${COMMIT_HASH:-latest}"
+
+      - "echo Repository URI: $REPOSITORY_URI"
+      - "echo Image tag: $IMAGE_TAG"
+      - "echo AWS Account ID: $AWS_ACCOUNT_ID"
+      - "echo AWS Region: $AWS_DEFAULT_REGION"
+
+  build:
+    commands:
+      - "echo Build started on $(date)"
+      - "echo Building Docker image from src/monza directory..."
+      - "cd src/monza"
+      - "docker build -t $REPOSITORY_URI:$IMAGE_TAG ."
+      # - "docker build -t $REPOSITORY_URI:latest ."
+      - "echo Docker images built:"
+      - "docker images | grep $REPOSITORY_URI"
+
+  post_build:
+    commands:
+      - "echo Build completed on $(date)"
+      - "echo Pushing Docker images to ECR..."
+      - "docker push $REPOSITORY_URI:$IMAGE_TAG"
+      # - "docker push $REPOSITORY_URI:latest"
+      - "echo Docker images pushed:"
+      - "docker images | grep $REPOSITORY_URI"
+      - "echo Updating App Runner service..."
+      - |
+        if aws apprunner describe-service --service-arn "$APP_RUNNER_SERVICE_ARN" --region "$AWS_DEFAULT_REGION" >/dev/null 2>&1; then
+          echo "App Runner service exists, updating with new image..."
+          aws apprunner start-deployment --service-arn "$APP_RUNNER_SERVICE_ARN" --region "$AWS_DEFAULT_REGION"
+          echo "App Runner deployment started successfully"
+        else
+          echo "App Runner service does not exist yet, skipping deployment update"
+        fi
+      - "echo Build completed successfully on $(date)"
+      - "echo Image URI: $REPOSITORY_URI:$IMAGE_TAG"
+      # - "echo Latest Image URI: $REPOSITORY_URI:latest"
+
+artifacts:
+  files:
+    - '**/*'
+  name: monza-build-$(date +%Y-%m-%d)
+
+cache:
+  paths:
+    - '/root/.docker/**/*'
+    - '/var/lib/docker/**/*'

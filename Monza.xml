@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<Schema name="default">
+    <Cube name="Vehicle Sales">
+        <Table name="daily_vehicle_sales_k"/>
+        
+        <!-- Date Hierarchy -->
+        <Dimension name="Date">
+            <Hierarchy hasAll="true" allMemberName="All Dates">
+                <Level name="Year" column="calendar_year" uniqueMembers="true"/>
+                <Level name="Quarter" column="calendar_qtr_name" uniqueMembers="false"/>
+                <Level name="Month" column="calendar_month_name" uniqueMembers="false"/>
+                <Level name="Week" column="calendar_week_name" uniqueMembers="false"/>
+                <Level name="Day" column="calendar_day_name" uniqueMembers="false"/>
+            </Hierarchy>
+        </Dimension>
+
+        <!-- Dealer Hierarchy -->
+        <Dimension name="Dealer">
+            <Hierarchy hasAll="true" allMemberName="All Dealers">
+                <Level name="Region" column="region" uniqueMembers="true"/>
+                <Level name="District" column="district" uniqueMembers="true"/>
+                <Level name="Country" column="country_name" uniqueMembers="true"/>
+                <Level name="City" column="city_name" uniqueMembers="true"/>
+                <Level name="Name" column="dealer_name" uniqueMembers="true"/>
+            </Hierarchy>
+        </Dimension>
+
+        <!-- Vehicle Hierarchy -->
+        <Dimension name="Vehicle">
+            <Hierarchy hasAll="true" allMemberName="All Vehicles">
+                <Level name="Class" column="vehicle_class" uniqueMembers="true"/>
+                <Level name="Type" column="vehicle_type" uniqueMembers="true"/>
+                <Level name="Model" column="vehicle_model" uniqueMembers="true"/>
+            </Hierarchy>
+        </Dimension>
+
+        <!-- Measure: Sales Revenue -->
+        <Measure name="Sales Revenue" column="sales_revenue" aggregator="sum" formatString="#,###.00"/>
+
+        <!-- Measure: Avg. Sales Revenue -->
+        <Measure name="Average Sales Revenue" column="sales_revenue" aggregator="avg" formatString="%%%.00"/>
+
+        <!-- Measure: Row Count -->
+        <Measure name="Row Count" column="calendar_year" aggregator="count" formatString="#,###"/>
+        
+    </Cube>
+
+    <Cube name="NTSB Flight Information">
+        <Table name="ntsb_ontime_k"/>
+        
+        <!-- Date Hierarchy -->
+        <Dimension name="Date">
+            <Hierarchy hasAll="true" allMemberName="All Dates">
+                <Level name="Year" column="YearName" uniqueMembers="true"/>
+                <Level name="Quarter" column="QuarterName" uniqueMembers="false"/>
+                <Level name="Month" column="MonthName" uniqueMembers="false"/>
+                <Level name="Week" column="WeekName" uniqueMembers="false"/>
+                <Level name="Day" column="DayName" uniqueMembers="false"/>
+            </Hierarchy>
+        </Dimension>
+
+        <!-- Airline Hierarchy -->
+        <Dimension name="Airline">
+            <Hierarchy hasAll="true" allMemberName="All Airlines">
+                <Level name="Airline" column="AirlineName" uniqueMembers="true"/>
+                <Level name="Flight Number" column="Flight_Number_Reporting_Airline" uniqueMembers="true"/>
+            </Hierarchy>
+        </Dimension>
+
+        <!-- Origin Hierarchy -->
+        <Dimension name="Origin">
+            <Hierarchy hasAll="true" allMemberName="All Origins">
+                <Level name="State" column="OriginStateName" uniqueMembers="true"/>
+                <Level name="City" column="OriginCityName" uniqueMembers="true"/>
+                <Level name="Airport ID" column="OriginAirportID" uniqueMembers="true"/>
+            </Hierarchy>
+        </Dimension>
+
+        <!-- Destination Hierarchy -->
+        <Dimension name="Destination">
+            <Hierarchy hasAll="true" allMemberName="All Destinations">
+                <Level name="State" column="DestStateName" uniqueMembers="true"/>
+                <Level name="City" column="DestCityName" uniqueMembers="true"/>
+                <Level name="Airport ID" column="DestAirportID" uniqueMembers="true"/>
+            </Hierarchy>
+        </Dimension>
+
+        <!-- Measure: Departure Delay -->
+        <Measure name="Departure Delay (mins)" column="DepDelayMinutes" aggregator="sum" formatString="#,###.00"/>
+
+        <!-- Measure: Average Departure Delay -->
+        <Measure name="Average Departure Delay (mins)" column="DepDelayMinutes" aggregator="avg" formatString="#,###.00"/>
+
+        <!-- Measure: Arrival Delay -->
+        <Measure name="Arrival Delay (mins)" column="ArrDelayMinutes" aggregator="sum" formatString="#,###.00"/>
+
+        <!-- Measure: Average Arrival Delay -->
+        <Measure name="Average Arrival Delay (mins)" column="ArrDelayMinutes" aggregator="avg" formatString="#,###.00"/>
+
+        <!-- Elapsed Time and Distance Measures -->
+        <Measure name="Scheduled Elapsed Time (mins)" column="CRSElapsedTime" aggregator="sum" formatString="#,###.00"/>
+        <Measure name="Average Scheduled Elapsed Time (mins)" column="CRSElapsedTime" aggregator="avg" formatString="#,###.00"/>
+
+        <Measure name="Actual Elapsed Time (mins)" column="ActualElapsedTime" aggregator="sum" formatString="#,###.00"/>
+        <Measure name="Average Actual Elapsed Time (mins)" column="ActualElapsedTime" aggregator="avg" formatString="#,###.00"/>
+
+        <Measure name="Air Time (mins)" column="AirTime" aggregator="sum" formatString="#,###.00"/>
+        <Measure name="Average Air Time (mins)" column="AirTime" aggregator="avg" formatString="#,###.00"/>
+
+        <Measure name="Flight Count" column="Flights" aggregator="sum" formatString="#,###"/>
+        <Measure name="Average Flights" column="Flights" aggregator="avg" formatString="#,###.00"/>
+
+        <Measure name="Distance (miles)" column="Distance" aggregator="sum" formatString="#,###.00"/>
+        <Measure name="Average Distance (miles)" column="Distance" aggregator="avg" formatString="#,###.00"/>
+
+        <!-- Measure: Row Count -->
+        <Measure name="Row Count" column="YearName" aggregator="count" formatString="#,###"/>
+
+    </Cube>
+</Schema>
