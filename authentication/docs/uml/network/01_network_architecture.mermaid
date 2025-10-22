@@ -1,0 +1,98 @@
+graph TB
+    subgraph Internet ["🌐 Internet"]
+        user["👤 Users"]
+    end
+
+    subgraph AWS ["☁️ AWS Cloud (us-east-2)"]
+        direction TB
+        
+        igw["🌍 Internet Gateway"]
+        
+        subgraph VPC ["🏢 VPC (kainam-dev-vpc)<br/>📍 10.0.0.0/16"]
+            direction TB
+            
+            subgraph AZ1 ["🏛️ Availability Zone A (us-east-2a)"]
+                direction TB
+                pub_sub_a["🌐 Public Subnet A<br/>📍 10.0.1.0/24"]
+                priv_sub_a["🔒 Private Subnet A<br/>📍 10.0.101.0/24"]
+            end
+            
+            subgraph AZ2 ["🏛️ Availability Zone B (us-east-2b)"]
+                direction TB
+                pub_sub_b["🌐 Public Subnet B<br/>📍 10.0.2.0/24"]
+                priv_sub_b["🔒 Private Subnet B<br/>📍 10.0.102.0/24"]
+            end
+            
+            subgraph LoadBalancing ["⚖️ Load Balancing Layer"]
+                alb["🔀 Application Load Balancer<br/>🔗 auth-dev.kainam.app<br/>📡 HTTPS:443"]
+            end
+            
+            subgraph NetworkInfra ["🛠️ Network Infrastructure"]
+                nat_gw["🔄 NAT Gateway<br/>📍 Public Subnet"]
+                pub_rt["📋 Public Route Table<br/>🎯 0.0.0.0/0 → IGW"]
+                priv_rt["📋 Private Route Table<br/>🎯 0.0.0.0/0 → NAT GW"]
+            end
+            
+            subgraph AppTier ["🚀 Application Tier"]
+                direction LR
+                keycloak["🔐 Keycloak Server<br/>💻 EC2 t3.medium<br/>📡 HTTP:8080"]
+                senna["🔧 Senna API<br/>⚡ App Runner Service<br/>📡 HTTPS:443"]
+                senna_front["🖥️ Senna Frontend<br/>⚡ App Runner Service<br/>📡 HTTPS:443"]
+            end
+            
+            subgraph DataTier ["🗄️ Database Tier"]
+                postgres["🐘 PostgreSQL RDS<br/>💾 db.t4g.micro<br/>📡 Port:5432"]
+            end
+        end
+    end
+
+    %% Main Traffic Flow
+    user ==>|"🔒 HTTPS:443 (Auth)"| alb
+    alb ==>|"📡 HTTP:8080"| keycloak
+    user ==>|"🔒 HTTPS:443 (App)"| senna_front
+    senna_front ==>|"📞 API Calls"| senna
+    
+    %% Internet Access
+    igw <==> alb
+    igw <==> nat_gw
+    
+    %% Internal Connections
+    keycloak ==>|"🗃️ Database Queries"| postgres
+    senna -->|"🌐 External APIs"| nat_gw
+    keycloak -->|"📦 Updates & Patches"| nat_gw
+    
+    %% Subnet Associations (dotted lines for logical relationships)
+    pub_sub_a -.-|"📌 Associated"| pub_rt
+    pub_sub_b -.-|"📌 Associated"| pub_rt
+    priv_sub_a -.-|"📌 Associated"| priv_rt
+    priv_sub_b -.-|"📌 Associated"| priv_rt
+    
+    %% Route Table Connections
+    pub_rt -->|"🌍 Internet Route"| igw
+    priv_rt -->|"🔄 NAT Route"| nat_gw
+
+    %% Modern Styling
+    classDef internet fill:#ff6b6b,stroke:#e63946,stroke-width:3px,color:#fff
+    classDef aws fill:#232f3e,stroke:#ff9900,stroke-width:3px,color:#fff
+    classDef vpc fill:#f8f9fa,stroke:#6c757d,stroke-width:2px,color:#212529
+    classDef az fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#0d47a1
+    classDef publicSubnet fill:#c8e6c9,stroke:#4caf50,stroke-width:2px,color:#1b5e20
+    classDef privateSubnet fill:#ffecb3,stroke:#ff9800,stroke-width:2px,color:#e65100
+    classDef loadbalancer fill:#e1bee7,stroke:#9c27b0,stroke-width:3px,color:#4a148c
+    classDef application fill:#bbdefb,stroke:#2196f3,stroke-width:2px,color:#0d47a1
+    classDef database fill:#ffcdd2,stroke:#f44336,stroke-width:2px,color:#c62828
+    classDef network fill:#f3e5f5,stroke:#673ab7,stroke-width:2px,color:#311b92
+    classDef infrastructure fill:#e8f5e8,stroke:#4caf50,stroke-width:2px,color:#1b5e20
+    
+    %% Apply Styles
+    class user internet
+    class AWS aws
+    class VPC vpc
+    class AZ1,AZ2 az
+    class pub_sub_a,pub_sub_b publicSubnet
+    class priv_sub_a,priv_sub_b privateSubnet
+    class alb loadbalancer
+    class keycloak,senna,senna_front application
+    class postgres database
+    class nat_gw,igw infrastructure
+    class pub_rt,priv_rt network

@@ -1,0 +1,24 @@
+{
+    "name": "test-frontend",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev -p 3000",
+        "build": "next build",
+        "start": "next start -p 3000",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "next": "^14.2.5",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "@radix-ui/react-slot": "^1.0.2"
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.4.4",
+        "postcss": "^8.4.12",
+        "tailwindcss": "^3.0.23",
+        "tailwindcss-animate": "^1.0.7",
+        "@tailwindcss/forms": "^0.5.0"
+    }
+}

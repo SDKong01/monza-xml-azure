@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant U as 👤 User's Browser
+    participant KAINAM as KAINAM App (App Runner)
+    participant Auth as Auth Service (ALB -> Keycloak)
+
+    Note over U, KAINAM: Pre-condition: User is already logged in.<br/>Browser holds a valid JWT Access Token.
+
+    U->>KAINAM: 1. API Request to /api/data with<br/> 'Authorization: Bearer <JWT>' header
+    
+    KAINAM->>Auth: 2. (On first call/cache miss) Backend fetches<br/> public key (JWKS) from Keycloak to verify JWT signature
+    Auth-->>KAINAM: 3. Return public key
+    
+    Note left of KAINAM: 4. Backend validates the JWT signature,<br/> expiry, and claims.
+    
+    alt JWT is Valid
+        Note left of KAINAM: Process request...
+        KAINAM-->>U: 5. Return API data (e.g., 200 OK)
+    else JWT is Invalid
+        KAINAM-->>U: 5. Return error (e.g., 401 Unauthorized)
+    end

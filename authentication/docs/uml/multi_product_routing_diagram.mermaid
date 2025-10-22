@@ -1,0 +1,59 @@
+flowchart LR
+  subgraph Internet
+    U[User Browser]
+  end
+
+  subgraph Route53["Route 53: kainam.app"]
+    R1[senna.dev.kainam.app]
+    R2[kimball.dev.kainam.app]
+    R3[auth.dev.kainam.app]
+  end
+
+  subgraph AppRunner["AWS App Runner (Public)"]
+    S1[SENNA Service]
+    S2[KIMBALL Service]
+  end
+
+  subgraph VPC["VPC (us-east-2)"]
+    subgraph PublicALB["Internet-facing ALB"]
+      L80[Listener 80 -> 301]
+      L443[Listener 443 TLS]
+    end
+    subgraph KeycloakASG["EC2 Auto Scaling: Keycloak"]
+      K1[Keycloak EC2 #1]
+      K2[Keycloak EC2 #2]
+    end
+  end
+
+  subgraph ACM["ACM Certificates"]
+    C1["*.kainam.app (ALB)"]
+    C2[App Runner Managed Certs]
+  end
+
+  %% DNS
+  U -->|HTTPS| R1
+  U -->|HTTPS| R2
+  U -->|HTTPS| R3
+
+  R1 -->|Alias/CNAME| S1
+  R2 -->|Alias/CNAME| S2
+  R3 -->|Alias| L443
+
+  %% TLS
+  L443 --- C1
+  S1 --- C2
+  S2 --- C2
+
+  %% ALB Targets
+  L80 --> L443
+  L443 -->|Target Group| K1
+  L443 -->|Target Group| K2
+
+  %% Auth Flow
+  U <-->|OIDC Redirects| L443
+  U <-->|App Traffic| S1
+  U <-->|App Traffic| S2
+
+  %% Optional VPC egress
+  S1 -.->|optional VPC Connector| VPC
+  S2 -.->|optional VPC Connector| VPC

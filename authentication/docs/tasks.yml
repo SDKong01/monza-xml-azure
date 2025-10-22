@@ -1,0 +1,202 @@
+####################################################
+# SPRINT 5 - KAINAM PLATFORM INTEGRATION (ACTIVE)
+####################################################
+
+---
+##################
+# KAINAM PLATFORM FOUNDATION (ECR & IAM)
+##################
+
+task_id: "KEY-34-KAINAM-FOUNDATION"
+title: "Provision Foundational Infrastructure for Kainam Platform"
+description: "Create the ECR repositories to store the Kainam Platform's container images and the IAM roles required for the CI/CD pipelines to operate."
+agent: "DevOps Engineer"
+status: "Complete"
+sprint: 5
+story_points: 1
+dependencies: []
+specifications:
+  terraform_resources:
+    - "aws_ecr_repository"
+    - "aws_iam_role"
+  ecr_repositories:
+    - name: "kainam-api-ecr-dev"
+    - name: "kainam-front-ecr-dev"
+  iam_roles:
+    - "Create an IAM Role that grants CI/CD services (e.g., GitHub Actions) permission to push images to the new ECR repositories."
+sub_tasks:
+  - "1. Define and deploy the two new 'aws_ecr_repository' resources via Terraform."
+  - "2. Define and deploy the new IAM role and attach the necessary ECR push policies."
+acceptance_criteria:
+  - "Both ECR repositories are created and visible in the AWS Console."
+  - "The IAM role for CI/CD is created with the correct permissions."
+
+---
+##################
+# KAINAM PLATFORM CI/CD PIPELINES
+##################
+
+task_id: "KEY-35-KAINAM-CICD"
+title: "Implement Initial CI/CD Pipelines for Kainam Platform"
+description: "Create the CI/CD pipelines to automatically build Docker images from the Kainam Platform source code and push them to the newly created ECR repositories."
+agent: "DevOps Engineer"
+status: "Partially Complete"
+sprint: 5
+story_points: 5
+dependencies:
+  - "KEY-34-KAINAM-FOUNDATION"
+specifications:
+  technology: "AWS CodePipeline"
+  workflow_mapping:
+    - source_repo: "kainamAI/kainam-backend" # Assumed repo name
+      target_ecr: "kainam-platform-api-ecr-dev"
+    - source_repo: "kainamAI/kainam-front" # Assumed repo name
+      target_ecr: "kainam-platform-front-ecr-dev"
+  trigger: "On push to the main development branch."
+sub_tasks:
+  - "1. Create the CodeBuild projects for the Kainam Platform backend and frontend."
+  - "2. Create Dockerfiles for the Kainam Platform backend and frontend."
+  - "3. Create the CodePipeline pipelines for the Kainam Platform backend and frontend."
+  - "4. Configure the pipeline steps to log in to ECR, build the Docker image, tag it, and push it."
+  - "5. Manually trigger the pipeline for the first time to ensure it works correctly."
+acceptance_criteria:
+  - "A push to the main branch of each source repository successfully triggers a pipeline run."
+  - "The pipeline successfully pushes a new container image to the correct ECR repository."
+
+---
+##################
+# KAINAM PLATFORM INFRASTRUCTURE
+##################
+
+task_id: "KEY-33-KAINAM-INFRA"
+title: "Deploy Kainam Platform Infrastructure (App Runner Services)"
+description: "Provision the core AWS App Runner services for the Kainam Platform frontend and backend, and associate the public-facing custom domain."
+agent: "DevOps Engineer"
+status: "Partially Complete"
+sprint: 5
+story_points: 8
+dependencies:
+  - "KEY-35-KAINAM-CICD" # This is now blocked until images exist in ECR
+specifications:
+  terraform_resources:
+    - "aws_apprunner_service"
+    - "aws_apprunner_custom_domain_association"
+    - "aws_route53_record"
+  app_runner_services:
+    - name: "kainam-api-dev"
+      image_identifier: "aws_ecr_repository.kainam_api.repository_url"
+    - name: "kainam-front-dev"
+      image_identifier: "aws_ecr_repository.kainam_front.repository_url"
+  custom_domain:
+    domain_name: "platform-dev.kainam.app"
+    target_service: "kainam-front-dev"
+    certificate_ref: "arn:of:*.dev.kainam.app:certificate"
+sub_tasks:
+  - "1. Define and deploy the 'kainam-api-dev' App Runner service via Terraform, pulling its image from ECR."
+  - "2. Define and deploy the 'kainam-front-dev' App Runner service via Terraform, pulling its image from ECR."
+  - "3. Create the DNS A record for 'platform-dev.kainam.app'."
+  - "4. Associate the custom domain with the 'kainam-front-dev' service."
+acceptance_criteria:
+  - "Both App Runner services are successfully provisioned and in a 'Running' state."
+  - "The custom domain 'platform-dev.kainam.app' is 'Active' and successfully loads the frontend application."
+
+---
+##################
+# KAINAM PLATFORM KEYCLOAK CLIENTS
+##################
+
+task_id: "KEY-32-KAINAM-CLIENT-CONFIG"
+title: "Configure Keycloak OIDC Clients for Kainam Platform"
+description: "Create the new OIDC clients required for the Kainam Platform frontend and backend services to communicate with Keycloak."
+agent: "DevOps Engineer"
+status: "Partially Complete"
+sprint: 5
+story_points: 2
+dependencies:
+  - "KEY-33-KAINAM-INFRA"
+specifications:
+  action: "Manual configuration via Keycloak Admin Console in the 'kainam-dev' realm."
+  clients:
+    - client_id: "kainam-frontend"
+      access_type: "public"
+      valid_redirect_uris:
+        - "https://wsavgpzs5x.us-east-2.awsapprunner.com/*"
+    - client_id: "kainam-backend"
+      access_type: "confidential"
+      service_accounts_enabled: true
+  secrets_management:
+    - "Store the secret generated for the 'kainam-backend' client in AWS Secrets Manager."
+sub_tasks:
+  - "1. Log into the Keycloak Admin Console."
+  - "2. Create the 'kainam-frontend' public client."
+  - "3. Create the 'kainam-backend' confidential client."
+  - "4. Retrieve the secret for the 'kainam-backend' client."
+  - "5. Store the secret in AWS Secrets Manager."
+acceptance_criteria:
+  - "Both OIDC clients are created and visible in the Keycloak Admin Console."
+  - "The client secret for 'kainam-backend' is securely stored in AWS Secrets Manager."
+
+---
+##################
+# KAINAM PLATFORM BACKEND
+##################
+
+task_id: "S5-TASK-01-KAINAM-BACKEND-INTEGRATION"
+title: "Integrate Kainam Platform Backend with Keycloak"
+description: "The backend team will implement a JWT validation middleware to secure the Kainam Platform's API endpoints using Keycloak."
+agent: "Backend Developer"
+status: "To Do"
+sprint: 5
+story_points: 8
+dependencies:
+  - "KEY-32-KAINAM-CLIENT-CONFIG"
+specifications:
+  library: "Integrate a standard JWT validation library (e.g., python-jose)."
+  configuration:
+    - "Configure the library with the JWKS URI of the Keycloak realm."
+  implementation:
+    - "Create a reusable FastAPI dependency to protect all necessary API endpoints."
+sub_tasks:
+  - "1. Add the JWT library to project dependencies."
+  - "2. Create a configuration module for Keycloak settings."
+  - "3. Implement a core token validation function."
+  - "4. Create a FastAPI dependency that uses the validation function."
+  - "5. Apply the new dependency to all protected API endpoints."
+  - "6. Write tests to verify the authentication logic."
+acceptance_criteria:
+  - "Protected API endpoints return a 401 Unauthorized error for invalid tokens."
+  - "Protected API endpoints return a 200 OK for valid tokens."
+
+---
+##################
+# KAINAM PLATFORM FRONTEND
+##################
+
+task_id: "S5-TASK-02-KAINAM-FRONTEND-INTEGRATION"
+title: "Integrate Kainam Platform Frontend with Keycloak"
+description: "The frontend team will integrate a standard OIDC library to manage the full user login/logout lifecycle for the Kainam Platform."
+agent: "Frontend Developer"
+status: "To Do"
+sprint: 5
+story_points: 8
+dependencies:
+  - "KEY-32-KAINAM-CLIENT-CONFIG"
+specifications:
+  library: "Integrate a standard, security-vetted OIDC library (e.g., react-oidc-context)."
+  configuration:
+    - "Configure the library using environment variables for the OIDC Issuer URL and Client ID."
+  implementation:
+    - "Implement protected routes."
+    - "Create UI components for login/logout."
+    - "Use an interceptor to attach the JWT to API calls."
+sub_tasks:
+  - "1. Add the OIDC library to package.json."
+  - "2. Wrap the main application component with the AuthProvider."
+  - "3. Implement protected route logic."
+  - "4. Create UI components for authentication actions."
+  - "5. Configure the API client with an interceptor."
+  - "6. Implement the OIDC callback page/route."
+acceptance_criteria:
+  - "Unauthenticated users are redirected to Keycloak for login."
+  - "Authenticated users can access protected content."
+  - "API calls to the backend include the 'Authorization: Bearer <JWT>' header."

@@ -1,0 +1,82 @@
+graph TD
+    %% External Source (Outside VPC)
+    internet["🌐 Internet<br/>📍 0.0.0.0/0"]
+    
+    subgraph VPC ["🔐 VPC: kainam-dev-vpc (vpc-0c864043de1e33fe8)"]
+        direction TB
+        
+        %% Actual EC2 Instance
+        subgraph EC2Layer ["💻 EC2 Instances"]
+            ec2_keycloak["🖥️ Keycloak EC2<br/>i-0b53d307ca0b3c67e<br/>10.0.101.124:8080<br/>(Private Subnet)"]
+        end
+        
+        %% Security Groups
+        subgraph Tiers ["Service Tiers"]
+            direction LR
+            subgraph LoadBalancerTier ["⚖️ Load Balancer"]
+                sg_alb["🛡️ kainam-dev-alb-sg<br/>sg-07444d8a1b42f2f64"]
+            end
+            
+            subgraph ApplicationTier ["🚀 Application"]
+                sg_web["🛡️ kainam-dev-web-sg<br/>sg-0e19349aa69128ae6<br/>(Legacy Web SG)"]
+                sg_keycloak_ec2["🛡️ kainam-keycloak-dev-sg<br/>sg-0cedc4b7e413fb2ed<br/>(Keycloak EC2 SG)"]
+                sg_app_runner["🛡️ sg-app-runner-vpc<br/>(SENNA VPC Default)"]
+            end
+    
+            subgraph DataTier ["🗄️ Data"]
+                sg_rds["🛡️ kainam-dev-keycloak-db-sg<br/>sg-0cceca5971e804572"]
+                sg_elasticache["🛡️ senna-redis-elasticache-dev-sg<br/>(SENNA Redis Cache)"]
+            end
+        end
+        
+        %% ALB Target Group
+        subgraph TargetGroup ["🎯 Target Groups"]
+            tg_keycloak["🎯 kainam-keycloak-dev-tg<br/>Health: /realms/master"]
+        end
+        
+        %% NAT Gateway for Outbound Traffic
+        subgraph PublicSubnet ["🌐 Public Subnet"]
+            nat_gateway["🚪 NAT Gateway<br/>(Outbound Internet)"]
+        end
+    end
+
+    %% Inbound Traffic Flows (Internet → VPC)
+    internet -- "HTTPS/443<br/>(Inbound)" --> sg_alb
+    sg_alb -- "HTTP/8080" --> sg_keycloak_ec2
+    sg_keycloak_ec2 -.- ec2_keycloak
+    sg_alb -.- tg_keycloak
+    tg_keycloak -- "Health Check<br/>HTTP/8080" --> ec2_keycloak
+    
+    %% Database Connection (ISSUE-011 Fixed)
+    sg_keycloak_ec2 -- "PostgreSQL/5432" --> sg_rds
+    
+    %% Legacy Web SG (Not Used by Keycloak)
+    sg_web -.- |"❌ Not Used<br/>by Keycloak EC2"| sg_keycloak_ec2
+    
+    %% SENNA Components (Separate)
+    sg_app_runner -- "Redis/6379" --> sg_elasticache
+    
+    %% Outbound Internet Access (VPC → Internet via NAT)
+    sg_keycloak_ec2 -- "All Outbound<br/>(ECR, Updates)" --> nat_gateway
+    sg_app_runner -- "All Outbound" --> nat_gateway
+    nat_gateway -- "Outbound Only" --> internet
+
+
+    %% Styling
+    classDef internet fill:#f8d7da,stroke:#f5c6cb
+    classDef alb fill:#cce5ff,stroke:#b8daff
+    classDef app fill:#fff3cd,stroke:#ffeeba
+    classDef db fill:#d4edda,stroke:#c3e6cb
+    classDef ec2 fill:#e1f5fe,stroke:#b3e5fc
+    classDef target fill:#f3e5f5,stroke:#e1bee7
+    classDef nat fill:#ffecb3,stroke:#ffc107
+    classDef tier fill:#f8f9fa,stroke:#dee2e6
+
+    class internet internet
+    class sg_alb alb
+    class sg_web,sg_keycloak_ec2,sg_app_runner app
+    class sg_rds,sg_elasticache db
+    class ec2_keycloak ec2
+    class tg_keycloak target
+    class nat_gateway nat
+    class LoadBalancerTier,ApplicationTier,DataTier,EC2Layer,TargetGroup,PublicSubnet tier

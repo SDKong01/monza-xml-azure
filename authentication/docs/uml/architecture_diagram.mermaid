@@ -1,0 +1,58 @@
+graph TD
+    subgraph Browser["User's Browser"]
+        U["👤 User"]
+    end
+ 
+    subgraph AWS["AWS Cloud"]
+        R53["Route 53 DNS"]
+
+        subgraph Auth["Authentication Service"]
+            ALB["Application Load Balancer"]
+            KC["Keycloak on EC2"]
+        end
+
+        subgraph AppServices["Application Services"]
+            SENNA["KAINAM PLATFORM App on App Runner<br/>Frontend + Backend"]
+        end
+
+        subgraph Database["Database (AWS RDS)"]
+            DB[("RDS PostgreSQL")]
+        end
+    end
+    
+    %% --- Internal Static Connections ---
+    ALB --> KC
+    KC <--> DB
+
+    %% --- Path A: Authentication & Login Flow (Blue Arrows) ---1
+    U -- "A1: Request App" --> R53
+    R53 -- " " --> SENNA
+    SENNA -- "A2: Redirect to Login" --> U
+    U -- "A3: Authenticate" --> R53
+    R53 -- " " --> ALB
+    SENNA -- "A4: Exchange Code for Token (Server-to-Server)" --> ALB
+
+    %% --- Path B: Authenticated API Call Flow (Green Arrows) ---
+    U -- "B1: API Call with JWT" --> R53
+    R53 -- " " --> SENNA
+    SENNA -- "B2: Validate JWT" --> ALB
+
+    %% --- Styling ---
+    style U fill:#f9f,stroke:#333,stroke-width:2px
+    style SENNA fill:#e6f3ff,stroke:#a4c4e4
+    style ALB fill:#ffebcc,stroke:#d6b656
+    style R53 fill:#f8cecc,stroke:#b85450
+    style KC fill:#d5e8d4,stroke:#82b366
+
+    %% Link Styles for Color Coding
+    %% Path A - Blue
+    linkStyle 2 stroke:#2a7fdb,stroke-width:2px,color:#2a7fdb
+    linkStyle 3 stroke:#2a7fdb,stroke-width:2px,color:#2a7fdb
+    linkStyle 4 stroke:#2a7fdb,stroke-width:2px,color:#2a7fdb
+    linkStyle 5 stroke:#2a7fdb,stroke-width:2px,color:#2a7fdb
+    linkStyle 6 stroke:#2a7fdb,stroke-width:2px,color:#2a7fdb
+    linkStyle 7 stroke:#2a7fdb,stroke-width:2px,color:#2a7fdb
+    %% Path B - Green
+    linkStyle 8 stroke:#2a9c48,stroke-width:2px,color:#2a9c48
+    linkStyle 9 stroke:#2a9c48,stroke-width:2px,color:#2a9c48
+    linkStyle 10 stroke:#2a9c48,stroke-width:2px,color:#2a9c48

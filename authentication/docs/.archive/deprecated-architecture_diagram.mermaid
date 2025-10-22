@@ -1,0 +1,48 @@
+graph TD
+    subgraph Browser["User's Browser"]
+        U[👤 User]
+    end
+
+    subgraph AWS["AWS Cloud"]
+        
+        subgraph Gateway["Gateway / Edge Layer (on EC2)"]
+            GW[NGINX / API Gateway]
+            O2P[oauth2-proxy]
+            GW <--> O2P
+        end
+
+        subgraph Auth["Authentication Service (on EC2)"]
+            KC[Keycloak]
+        end
+
+        subgraph AppServices["Application Services (AWS App Runner)"]
+            FE[Frontend - React App]
+            BE[Backend - FastAPI Service]
+        end
+
+        subgraph Database["Database (AWS RDS)"]
+            DB[(RDS PostgreSQL)]
+        end
+
+    end
+
+    %% --- Flows ---
+    
+    %% Initial Load & Login Flow
+    U -- 1: HTTPS Request app.yourdomain.com --> GW
+    GW -- 2: Forwards to Frontend --> FE
+    FE -- 3: Returns Frontend App --> U
+    
+    %% API Call & Auth Flow
+    U -- 4: API Call /api/* --> GW
+    O2P -- 5: Validates Token w/ Keycloak --> KC
+    GW -- 6: Injects Headers & Forwards to Backend --> BE
+
+    %% Internal Connections
+    KC <--> DB
+
+    style U fill:#f9f,stroke:#333,stroke-width:2px
+    style FE fill:#e6f3ff,stroke:#a4c4e4
+    style BE fill:#e6f3ff,stroke:#a4c4e4
+    style GW fill:#fff2cc,stroke:#d6b656
+    style KC fill:#d5e8d4,stroke:#82b366

@@ -1,0 +1,20 @@
+sequenceDiagram
+    actor Admin
+    participant KC as Keycloak
+    actor User
+    participant FE as Frontend (React)
+    participant BE as Backend (FastAPI)
+
+    Admin->>KC: 1: Creates 'analyst' role
+    Admin->>KC: 2: Assigns 'analyst' role to user
+    Admin->>KC: 3: Configures client to add 'roles' claim to token
+
+    User->>FE: 4: Logs into the application (full OIDC flow)
+    FE->>FE: 5: Decodes ID Token, finds 'roles: ["analyst"]'
+    FE->>FE: 6: Conditionally renders "Analyst Dashboard" button
+    User->>FE: 7: Clicks button to fetch protected data
+    FE->>+BE: 8: GET /api/v1/analyst-data
+    Note over BE: Request headers include 'X-User-Roles: analyst'
+    BE->>BE: 9: Verifies 'analyst' is in roles header
+    BE-->>-FE: 10: Returns protected data
+    FE->>User: 11: Displays analyst data

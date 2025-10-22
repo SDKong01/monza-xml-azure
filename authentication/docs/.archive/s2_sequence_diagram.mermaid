@@ -1,0 +1,26 @@
+sequenceDiagram
+    actor Engineer
+    participant DockerDB as PostgreSQL (Docker)
+    participant RDS_DB as AWS RDS PostgreSQL
+    participant KC as Keycloak
+    participant User
+    participant ALB as AWS ALB (HTTPS)
+    participant EC2 as EC2 Instance (HTTP)
+
+    rect rgb(173, 216, 230)
+        Note over Engineer, KC: DB Migration
+        Engineer->>DockerDB: 1: Export Keycloak data
+        DockerDB-->>Engineer: Provides data dump
+        Engineer->>RDS_DB: 2: Import Keycloak data
+        RDS_DB-->>Engineer: Import successful
+        Engineer->>KC: 3: Reconfigure DB connection to point to RDS
+        KC->>RDS_DB: Establishes new connection
+    end
+
+    rect rgb(144, 238, 144)
+        Note over Engineer, EC2: Secure Networking
+        Engineer->>ALB: 4: Provision ALB & ACM Certificate
+        User->>+ALB: 5: Accesses app via https://app.yourdomain.com
+        ALB->>-EC2: 6: Forwards traffic via HTTP to EC2 instance
+        Note over User, EC2: All subsequent traffic is now secure (HTTPS)
+    end

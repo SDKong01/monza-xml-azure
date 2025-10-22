@@ -1,0 +1,33 @@
+sequenceDiagram
+    participant Cron as Cron Job (on EC2)
+    participant Script as Backup Script
+    participant KC as Keycloak
+    participant S3 as AWS S3
+    participant Docker as Docker Daemon
+    participant CW as AWS CloudWatch
+
+    rect rgb(173, 216, 230)
+        Note over Cron, CW: Automated Backups & Logging
+        Cron->>Script: 1: Triggers nightly backup
+        Script->>KC: 2: Executes realm export command
+        KC-->>Script: Returns export file
+        Script->>S3: 3: Uploads backup file
+        Docker->>CW: 4: Continuously streams container logs
+    end
+
+    participant MigScript as Migration Script
+    participant LegacyDB as Legacy MongoDB
+    participant KC_Admin_API as Keycloak Admin API
+    actor MigratedUser as Migrated User
+
+    rect rgb(144, 238, 144)
+        Note over MigScript, MigratedUser: User Migration
+        MigScript->>LegacyDB: 5: Reads user data
+        LegacyDB-->>MigScript: Returns user records
+        loop For each user
+            MigScript->>KC_Admin_API: 6: Creates user with temporary password
+        end
+        MigratedUser->>KC: 7: Logs in with old credentials
+        KC-->>MigratedUser: 8: Forces password reset
+        MigratedUser->>KC: 9: Sets new password and logs in
+    end

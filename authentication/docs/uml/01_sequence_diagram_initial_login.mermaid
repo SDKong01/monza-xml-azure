@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant U as 👤 User's Browser
+    participant KAINAM as KAINAM App (App Runner)
+    participant Auth as Auth Service (ALB -> Keycloak)
+
+    U->>KAINAM: 1. Access https://<subdomain>.kainam.app
+    KAINAM-->>U: 2. Return frontend app
+    Note right of U: App detects no active session,<br/>initiates login.
+    U->>Auth: 3. Redirect to Keycloak for login
+    Auth-->>U: 4. User enters credentials, submits
+    Note left of Auth: Keycloak authenticates user.
+    Auth-->>U: 5. Redirect back to KAINAM with<br/> temporary Authorization Code
+    U->>KAINAM: 6. Browser sends Auth Code to KAINAM's<br/> backend callback (/callback?code=...)
+    KAINAM->>Auth: 7. KAINAM backend exchanges Auth Code<br/> for JWT Access/Refresh Tokens (server-to-server)
+    Auth-->>KAINAM: 8. Keycloak returns JWTs
+    Note left of KAINAM: Backend creates a session and<br/>stores tokens securely.
+    KAINAM-->>U: 9. Return authenticated app state

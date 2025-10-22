@@ -1,0 +1,24 @@
+sequenceDiagram
+    actor User
+    participant KC as Keycloak
+    participant Email as User's Email Client
+    participant BE as Backend Service
+    participant KC_Admin_API as Keycloak Admin API
+
+    rect rgb(173, 216, 230)
+        Note over User, KC: Self-Serve Password Reset
+        User->>KC: 1: Clicks "Forgot Password" on login page
+        KC->>Email: 2: Sends password reset link
+        User->>Email: 3: Opens email and clicks link
+        Email-->>KC: Opens password reset page
+        User->>KC: 4: Submits new password
+        KC->>User: 5: Confirms password change
+    end
+
+    rect rgb(144, 238, 144)
+        Note over BE, KC_Admin_API: Admin API for Role Management
+        BE->>+KC: 6: Authenticates using Client Credentials
+        KC-->>-BE: 7: Returns Access Token for Admin API
+        BE->>+KC_Admin_API: 8: POST /users/{id}/role-mappings (assigns role)
+        KC_Admin_API-->>-BE: 9: Returns 200 OK
+    end

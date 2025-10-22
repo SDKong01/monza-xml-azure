@@ -1,0 +1,83 @@
+services:
+  # The 'db' service has been removed as the database is now managed by AWS RDS.
+  # The Keycloak instance will connect directly to the RDS endpoint.
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.3.2
+    container_name: keystone-keycloak
+    ports:
+      - "8080:8080"
+    environment:
+      # Admin credentials - sourced from environment variables (fetched from Secrets Manager)
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_DB: postgres
+      KC_DB_URL_HOST: ${POSTGRES_HOST}     
+      KC_DB_URL_DATABASE: ${POSTGRES_DB}  
+      KC_DB_USERNAME: ${POSTGRES_USER}    
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      
+      # Proxy Configuration - ALB Edge TLS Termination
+      KC_PROXY_HEADERS: xforwarded
+      KC_PROXY: edge
+      KC_HTTP_ENABLED: true
+      KC_HTTPS_ENABLED: false
+      
+      # Hostname Configuration (v2 - Full URL format)
+      KC_HOSTNAME_URL: https://auth-dev.kainam.app
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLED: true
+      
+      # Production-ready command (not start-dev)
+    command: start --optimized
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/health/ready || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Backend service - commented out for later integration
+  # backend:
+  #   build:
+  #     context: ./tests/walking_skeleton/test_api
+  #     dockerfile: Dockerfile
+  #   container_name: keystone-backend
+  #   ports:
+  #     - "8001:8001"
+  #   environment:
+  #     - PYTHONPATH=/app
+  #   working_dir: /app
+  #   command: python main.py
+  #   depends_on:
+  #     - keycloak
+
+  # Frontend service - commented out for later integration
+  # frontend:
+  #   build:
+  #     context: ./tests/walking_skeleton/test_front
+  #     dockerfile: Dockerfile
+  #     args:
+  #       NEXT_PUBLIC_OAUTH2_PROXY_URL: ${NEXT_PUBLIC_OAUTH2_PROXY_URL}
+  #   container_name: keystone-frontend
+  #   volumes:
+  #     - ./tests/walking_skeleton/test_front:/app
+  #     - /app/node_modules
+  #   ports:
+  #     - "${FRONTEND_PORT:-3001}:3000"
+  #   environment:
+  #     - NODE_ENV=development
+  #   depends_on:
+  #     - backend
+
+# Removed services:
+# - oauth2-proxy: No longer required (replaced by direct Keycloak OIDC)
+# - nginx: No longer required (ALB handles load balancing and SSL termination)
+
+# Removed volumes:
+# - postgres_data: No longer needed as database is managed by AWS RDS
+
+# Removed networks:
+# - keystone-net: Simplified to use default Docker network

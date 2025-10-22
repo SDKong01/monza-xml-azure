@@ -1,0 +1,91 @@
+/* Import Nunito font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+/* Tailwind CSS directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+@layer base {
+    body {
+        @apply font-nunito bg-slate-100 min-h-screen;
+    }
+}
+
+/* Custom component styles for Keycloak theme */
+@layer components {
+
+    /* Main card container */
+    .kc-card {
+        @apply bg-white rounded-lg shadow-md p-8 max-w-md w-full;
+    }
+
+    /* Primary button style (green background) */
+    .kc-button-primary {
+        @apply w-full bg-green-100 text-green-700 font-bold py-2.5 px-4 rounded-md hover:bg-green-200 transition-colors duration-200;
+    }
+
+    /* Input field style */
+    .kc-input {
+        @apply w-full px-3.5 py-2.5 border border-slate-300 rounded-md bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:border-green-700 focus:ring-1 focus:ring-green-700 transition-colors;
+    }
+
+    /* Input field with error state */
+    .kc-input-error {
+        @apply border-red-400 text-red-400 focus:border-red-400 focus:ring-red-400;
+    }
+
+    /* Form label style */
+    .kc-label {
+        @apply block text-sm font-semibold text-slate-400 mb-2;
+    }
+
+    /* Label with error state */
+    .kc-label-error {
+        @apply text-red-400;
+    }
+
+    /* Welcome section styles */
+    .kc-welcome-title {
+        @apply font-bold text-slate-900 text-5xl mb-4 leading-tight;
+    }
+
+    .kc-welcome-subtitle {
+        @apply text-slate-600 text-2xl font-semibold;
+    }
+
+    /* Link styles */
+    .kc-link {
+        @apply text-green-700 text-sm cursor-pointer hover:underline transition-all;
+    }
+
+    /* Footer styles */
+    .kc-footer-link {
+        @apply text-green-700 text-xs cursor-pointer hover:underline;
+    }
+
+    .kc-footer-text {
+        @apply text-slate-500 font-semibold text-xs;
+    }
+
+    /* Error/Alert message */
+    .kc-alert-error {
+        @apply bg-red-50 border border-red-400 text-red-600 px-4 py-3 rounded-md mb-6 text-sm;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .kc-welcome-title {
+        @apply text-4xl;
+    }
+
+    .kc-welcome-subtitle {
+        @apply text-xl;
+    }
+
+    .kc-card {
+        @apply p-6;
+    }
+}

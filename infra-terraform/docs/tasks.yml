@@ -1,0 +1,559 @@
+##################
+# CFGI CLIENT INFRASTRUCTURE DEPLOYMENT
+##################
+
+task_id: "CFGI-SETUP"
+title: "CFGI Client Multi-Tenant Infrastructure Setup"
+description: "Complete infrastructure deployment for CFGI client including Kimball (App Runner services) and Monza (EC2) products in client AWS account following multi-tenant architecture pattern"
+agent: "DevOps Engineer"
+status: "Pending"
+dependencies: []
+specifications:
+  terraform_resources:
+    - "clients/cfgi directory structure"
+    - "module.vpc (foundation)"
+    - "module.security_groups (foundation)"
+    - "module.iam_roles (foundation)"
+    - "module.ecr_kimball (Kimball product)"
+    - "module.kimball_frontend (App Runner)"
+    - "module.kimball_backend (App Runner with VPC connector)"
+    - "module.codepipeline_kimball (CI/CD)"
+    - "module.route53_records_kimball (DNS)"
+    - "module.ec2_monza (to be created)"
+  networking:
+    vpc_cidr: "10.10.0.0/16"
+    region: "us-east-2"
+    availability_zones: ["us-east-2a", "us-east-2b"]
+    public_subnets: ["10.10.1.0/24", "10.10.2.0/24"]
+    private_subnets: ["10.10.101.0/24", "10.10.102.0/24"]
+  kimball_product:
+    frontend:
+      service: "App Runner"
+      cpu: 1024
+      memory: 2048
+      domain: "kimball-cfgi.kainam.app"
+      repos: "kainamAI/kimball-frontend"
+    backend:
+      service: "App Runner"
+      cpu: 1024
+      memory: 2048
+      vpc_connector: true
+      repos: "kainamAI/kimball-fastapi"
+    ci_cd:
+      source_branch: "dev"
+      pipelines: ["frontend", "api"]
+  monza_product:
+    instance_type: "TBD - awaiting client specs"
+    services: ["ClickHouse", "Airflow"]
+    bootstrap_script: "deploy_monza_bootstrap.sh.tpl"
+  aws_configuration:
+    profile: "cfgi-sso"
+    account: "CFGI AWS Account"
+    state_bucket: "cfgi-tf-state"
+  naming_convention:
+    project_name: "cfgi"
+    environment: "prod"
+    pattern: "cfgi-prod-{resource-type}"
+  manual_operations:
+    - "Create S3 bucket cfgi-tf-state with versioning"
+    - "Create DynamoDB table cfgi-tf-state-lock"
+    - "Request ACM certificate for *.kainam.app in CFGI account"
+    - "Validate ACM cert via DNS records in Kainam Route 53"
+    - "Setup CodeStar connection for GitHub (kainamAI org)"
+    - "Add custom domain to App Runner frontend service"
+    - "Initial Docker image push to ECR repositories"
+acceptance_criteria:
+  - "Directory structure clients/cfgi/ created with all configuration files"
+  - "VPC cfgi-prod-vpc (10.10.0.0/16) deployed with public/private subnets"
+  - "Security groups configured for App Runner and EC2 communication"
+  - "IAM roles created for GitHub Actions, App Runner, and EC2"
+  - "ECR repositories created: cfgi-prod-kimball-frontend-ecr and cfgi-prod-kimball-api-ecr"
+  - "App Runner frontend service deployed and healthy"
+  - "App Runner backend service deployed with VPC connector"
+  - "CodePipeline operational for both frontend and backend"
+  - "Custom domain kimball-cfgi.kainam.app resolves with HTTPS"
+  - "Route 53 DNS records created in Kainam hosted zone"
+  - "GitHub CodeStar connection authorized"
+  - "EC2 Monza module created in modules/ec2-monza/"
+  - "Monza bootstrap script created in scripts/"
+  - "Client deployment README created with manual operations checklist"
+  - "ENVIRONMENT_STRATEGY.md updated with multi-tenant architecture"
+  - "All Terraform validation tests pass"
+  - "End-to-end connectivity verified between services"
+
+---
+
+##################
+# STAGE 1: DIRECTORY STRUCTURE AND CONFIGURATION
+##################
+
+task_id: "CFGI-001"
+title: "Setup Client Directory Structure and Configuration"
+description: "Create the complete directory structure for CFGI client deployment including backend configuration, provider setup, and base configuration files"
+agent: "DevOps Engineer"
+status: "Completed"
+dependencies: []
+specifications:
+  terraform_files:
+    - "clients/cfgi/backend.tf"
+    - "clients/cfgi/versions.tf"
+    - "clients/cfgi/variables.tf"
+    - "clients/cfgi/outputs.tf"
+    - "clients/cfgi/main.tf"
+  aws_configuration:
+    profile: "cfgi-sso"
+    region: "us-east-2"
+  state_management:
+    backend: "s3"
+    bucket: "cfgi-tf-state"
+    dynamodb_table: "cfgi-tf-state-lock"
+acceptance_criteria:
+  - "Directory structure clients/cfgi/ created"
+  - "AWS provider configured with cfgi-sso profile"
+  - "S3 backend configuration complete"
+  - "terraform init executes successfully"
+  - "terraform validate passes without errors"
+
+---
+
+##################
+# STAGE 2: FOUNDATION INFRASTRUCTURE
+##################
+
+task_id: "CFGI-002"
+title: "Deploy Foundation Infrastructure - VPC and Networking"
+description: "Deploy core networking infrastructure including VPC, subnets, Internet Gateway, NAT Gateway, and route tables"
+agent: "DevOps Engineer"
+status: "Completed"
+dependencies: ["CFGI-001"]
+specifications:
+  terraform_resources:
+    - "module.vpc"
+    - "aws_vpc"
+    - "aws_subnet"
+    - "aws_internet_gateway"
+    - "aws_nat_gateway"
+    - "aws_route_table"
+  networking:
+    vpc_cidr: "10.10.0.0/16"
+    availability_zones: ["us-east-2a", "us-east-2b"]
+    public_subnets: ["10.10.1.0/24", "10.10.2.0/24"]
+    private_subnets: ["10.10.101.0/24", "10.10.102.0/24"]
+acceptance_criteria:
+  - "VPC cfgi-prod-vpc created with CIDR 10.10.0.0/16"
+  - "Two public and two private subnets created"
+  - "Internet Gateway and NAT Gateway operational"
+  - "Route tables configured correctly"
+
+---
+
+task_id: "CFGI-003"
+title: "Deploy Foundation Infrastructure - Security Groups"
+description: "Create security groups for App Runner VPC Connector and Monza EC2 instance communication"
+agent: "DevOps Engineer"
+status: "Deferred"
+dependencies: ["CFGI-002"]
+note: "Security groups are created as part of App Runner (CFGI-007) and Monza EC2 (CFGI-010) modules - no standalone deployment needed"
+specifications:
+  terraform_resources:
+    - "aws_security_group (vpc_connector, monza)"
+    - "Note: VPC Connector SG created by App Runner module"
+    - "Note: Monza SG defined in ec2-monza module"
+  security_groups:
+    vpc_connector:
+      name: "cfgi-prod-vpc-connector-sg"
+      purpose: "App Runner VPC Connector egress to VPC"
+      managed_by: "App Runner VPC Connector module"
+    monza_ec2:
+      name: "cfgi-prod-monza-sg"
+      ingress:
+        - "SSH (22) from 0.0.0.0/0"
+        - "ClickHouse HTTP (8123) from VPC Connector SG"
+        - "ClickHouse Native (9000) from VPC Connector SG"
+        - "Airflow Web UI (8080) from 0.0.0.0/0"
+      egress: "All outbound traffic"
+acceptance_criteria:
+  - "VPC Connector security group created by App Runner module"
+  - "Monza security group allows App Runner backend communication"
+  - "Security group IDs available as module outputs"
+  - "No generic ALB/Web/DB security groups created (not applicable to App Runner architecture)"
+
+---
+
+task_id: "CFGI-004"
+title: "Deploy Foundation Infrastructure - IAM Roles"
+description: "Create IAM roles for GitHub Actions, App Runner services, and EC2 instances"
+agent: "DevOps Engineer"
+status: "Completed"
+dependencies: ["CFGI-001"]
+specifications:
+  terraform_resources:
+    - "module.iam_roles"
+    - "aws_iam_openid_connect_provider"
+    - "aws_iam_role (github, app_runner, ec2)"
+    - "aws_iam_instance_profile"
+  iam_roles:
+    github_actions: "ECR push/pull permissions"
+    app_runner_access: "ECR image pull"
+    app_runner_instance: "CloudWatch and VPC"
+    ec2_instance: "ECR and Session Manager"
+  github_oidc:
+    organization: "kainamAI"
+    repositories: ["kimball-frontend", "kimball-fastapi"]
+    branches: ["dev"]
+acceptance_criteria:
+  - "GitHub OIDC provider created"
+  - "All IAM roles created with proper policies"
+  - "Role ARNs available as outputs"
+
+---
+
+##################
+# STAGE 3: KIMBALL PRODUCT
+##################
+
+task_id: "CFGI-005"
+title: "Deploy Kimball Product - ECR Repositories"
+description: "Create ECR repositories for Kimball frontend and backend Docker images"
+agent: "DevOps Engineer"
+status: "Completed"
+dependencies: ["CFGI-004"]
+specifications:
+  terraform_resources:
+    - "module.ecr_kimball"
+    - "aws_ecr_repository (frontend, api)"
+    - "aws_ecr_lifecycle_policy"
+  ecr_repositories:
+    frontend:
+      name: "cfgi-prod-kimball-frontend-ecr"
+      retention: 10
+      scan_on_push: true
+    api:
+      name: "cfgi-prod-kimball-api-ecr"
+      retention: 10
+      scan_on_push: true
+acceptance_criteria:
+  - "Both ECR repositories created"
+  - "Lifecycle policies configured"
+  - "Repository URLs available as outputs"
+
+---
+
+task_id: "CFGI-006"
+title: "Deploy Kimball Product - App Runner Frontend"
+description: "Deploy Kimball frontend as App Runner service with custom domain"
+agent: "DevOps Engineer"
+status: "Pending"
+dependencies: ["CFGI-005", "CFGI-002", "CFGI-004"]
+specifications:
+  terraform_resources:
+    - "module.kimball_frontend"
+    - "aws_apprunner_service"
+    - "aws_apprunner_custom_domain_association"
+  app_runner:
+    service_name: "cfgi-prod-kimball-frontend"
+    port: 3000
+    cpu: 1024
+    memory: 2048
+    custom_domain: "kimball-cfgi.kainam.app"
+  health_check:
+    path: "/"
+    protocol: "HTTP"
+    interval: 10
+acceptance_criteria:
+  - "App Runner service deployed and healthy"
+  - "Custom domain configured with SSL"
+  - "Auto-deployment enabled"
+
+---
+
+task_id: "CFGI-007"
+title: "Deploy Kimball Product - App Runner Backend"
+description: "Deploy Kimball backend as App Runner service with VPC connector"
+agent: "DevOps Engineer"
+status: "Pending"
+dependencies: ["CFGI-005", "CFGI-002", "CFGI-004"]
+specifications:
+  terraform_resources:
+    - "module.kimball_backend"
+    - "aws_apprunner_service"
+    - "aws_apprunner_vpc_connector"
+  app_runner:
+    service_name: "cfgi-prod-kimball-api"
+    port: 8000
+    cpu: 1024
+    memory: 2048
+    vpc_connector: true
+  networking:
+    subnets: "private_subnets"
+    security_groups: "app_runner_sg"
+  health_check:
+    path: "/health"
+    protocol: "HTTP"
+acceptance_criteria:
+  - "App Runner service deployed and healthy"
+  - "VPC connector created and attached"
+  - "Service can reach private subnet resources"
+
+---
+
+task_id: "CFGI-008"
+title: "Deploy Kimball Product - CI/CD Pipelines"
+description: "Create CodePipeline and CodeBuild projects for automated Docker builds"
+agent: "DevOps Engineer"
+status: "In Progress"
+dependencies: ["CFGI-005", "CFGI-004"]
+specifications:
+  terraform_resources:
+    - "module.codepipeline_kimball"
+    - "aws_codepipeline (frontend, api)"
+    - "aws_codebuild_project (frontend, api)"
+    - "aws_s3_bucket (artifacts)"
+  pipelines:
+    frontend:
+      name: "cfgi-prod-kimball-frontend-pipeline"
+      source_repo: "kainamAI/kimball-frontend"
+      source_branch: "dev"
+    api:
+      name: "cfgi-prod-kimball-api-pipeline"
+      source_repo: "kainamAI/kimball-fastapi"
+      source_branch: "dev"
+acceptance_criteria:
+  - "Both CodePipelines created"
+  - "CodeBuild projects configured"
+  - "Pipelines trigger on push to dev branch"
+  - "Test build pushes to ECR successfully"
+
+---
+
+task_id: "CFGI-009"
+title: "Deploy Kimball Product - Route 53 DNS"
+description: "Create Route 53 DNS records for kimball-cfgi.kainam.app"
+agent: "DevOps Engineer"
+status: "Pending"
+dependencies: ["CFGI-006"]
+specifications:
+  terraform_resources:
+    - "module.route53_records_kimball"
+    - "aws_route53_record"
+  dns_configuration:
+    hosted_zone: "kainam.app"
+    record_name: "kimball-cfgi.kainam.app"
+    record_type: "A"
+    alias_target: "App Runner custom domain DNS target"
+acceptance_criteria:
+  - "Route 53 A record created"
+  - "DNS resolves correctly"
+  - "HTTPS access works with valid SSL"
+
+---
+
+##################
+# STAGE 4: MONZA PRODUCT
+##################
+
+task_id: "CFGI-010"
+title: "Create Monza EC2 Module"
+description: "Create reusable Terraform module for Monza EC2 deployment"
+agent: "DevOps Engineer"
+status: "Pending"
+dependencies: ["CFGI-003"]
+specifications:
+  terraform_files:
+    - "modules/ec2-monza/main.tf"
+    - "modules/ec2-monza/variables.tf"
+    - "modules/ec2-monza/outputs.tf"
+    - "modules/ec2-monza/versions.tf"
+  terraform_resources:
+    - "aws_instance"
+    - "aws_security_group"
+    - "aws_key_pair"
+    - "aws_iam_role"
+    - "aws_iam_instance_profile"
+  security_group_rules:
+      ingress:
+      - "SSH (22)"
+      - "ClickHouse HTTP (8123)"
+      - "ClickHouse Native (9000)"
+      - "Airflow Web UI (8080)"
+acceptance_criteria:
+  - "Module directory structure created"
+  - "Security group allows App Runner communication"
+  - "Module outputs include instance details"
+  - "terraform validate passes"
+
+---
+
+task_id: "CFGI-011"
+title: "Create Monza Bootstrap Script"
+description: "Create shell script for automated ClickHouse and Airflow deployment"
+agent: "DevOps Engineer"
+status: "Pending"
+dependencies: []
+specifications:
+  script_file: "infra-terraform/scripts/deploy_monza_bootstrap.sh.tpl"
+  services:
+    clickhouse:
+      container_name: "monza-clickhouse"
+      ports: [8123, 9000]
+      health_check: "curl localhost:8123"
+    airflow:
+      container_name: "monza-airflow"
+      ports: [8080]
+      health_check: "curl localhost:8080/health"
+  script_features:
+    - "Docker and Docker Compose installation"
+    - "ClickHouse container deployment"
+    - "Airflow container deployment"
+    - "Health check validation"
+    - "Comprehensive logging"
+acceptance_criteria:
+  - "Bootstrap script template created"
+  - "ClickHouse deployed and healthy"
+  - "Airflow deployed and healthy"
+  - "Script is idempotent"
+
+---
+
+task_id: "CFGI-012"
+title: "Deploy Monza Product - EC2 Instance (Placeholder)"
+description: "Create placeholder Terraform configuration for Monza EC2 deployment"
+agent: "DevOps Engineer"
+status: "Pending"
+dependencies: ["CFGI-010", "CFGI-011", "CFGI-007"]
+specifications:
+  terraform_file: "clients/cfgi/monza.tf"
+  configuration_status: "Placeholder - awaiting specifications"
+  required_specifications:
+    - "EC2 instance type"
+    - "Root volume size"
+    - "ClickHouse configuration"
+    - "Airflow configuration"
+  terraform_resources:
+    - "module.monza (commented out)"
+acceptance_criteria:
+  - "File monza.tf created with commented configuration"
+  - "Documentation explains required specs"
+  - "Ready to customize when specs provided"
+
+---
+
+##################
+# STAGE 5: DOCUMENTATION
+##################
+
+task_id: "CFGI-013"
+title: "Create Client Deployment Documentation"
+description: "Create comprehensive README for CFGI client deployment"
+agent: "DevOps Engineer"
+status: "Pending"
+dependencies: ["CFGI-001"]
+specifications:
+  documentation_file: "clients/cfgi/README.md"
+  sections:
+    - "Overview and Architecture"
+    - "Prerequisites"
+    - "Initial Setup"
+    - "Deployment Steps"
+    - "Manual Operations Checklist"
+    - "Troubleshooting"
+  manual_operations:
+    - "Create S3 bucket and DynamoDB table"
+    - "Request and validate ACM certificate"
+    - "Setup CodeStar connection"
+    - "Configure App Runner custom domain"
+    - "Initial ECR image push"
+acceptance_criteria:
+  - "README.md complete with all sections"
+  - "Manual operations clearly documented"
+  - "Troubleshooting guide included"
+
+---
+
+task_id: "CFGI-014"
+title: "Update Environment Strategy Documentation"
+description: "Update ENVIRONMENT_STRATEGY.md with multi-tenant architecture"
+agent: "DevOps Engineer"
+status: "Pending"
+dependencies: ["CFGI-001", "CFGI-013"]
+specifications:
+  documentation_file: "infra-terraform/docs/ENVIRONMENT_STRATEGY.md"
+  new_sections:
+    - "Multi-Tenant Client Architecture"
+    - "Clients vs Internal Environments"
+    - "Client Naming Conventions"
+    - "Cross-Account Strategy"
+  content_updates:
+    - "Directory structure with clients/"
+    - "Naming patterns for clients"
+    - "State isolation strategy"
+    - "Module reusability approach"
+acceptance_criteria:
+  - "ENVIRONMENT_STRATEGY.md updated"
+  - "Multi-tenant section added"
+  - "Client template provided"
+
+---
+
+##################
+# VALIDATION
+##################
+
+task_id: "CFGI-015"
+title: "End-to-End Testing and Validation"
+description: "Comprehensive testing of CFGI infrastructure deployment"
+agent: "DevOps Engineer"
+status: "Pending"
+dependencies: ["CFGI-002", "CFGI-003", "CFGI-004", "CFGI-005", "CFGI-006", "CFGI-007", "CFGI-008", "CFGI-009"]
+specifications:
+  test_categories:
+    terraform: "plan and apply validation"
+    foundation: "VPC, subnets, security groups"
+    kimball: "App Runner services, ECR, DNS"
+    ci_cd: "Pipeline triggers and builds"
+    network: "VPC connector and connectivity"
+    security: "IAM policies and encryption"
+  verification_commands:
+    - "terraform state list"
+    - "aws apprunner list-services"
+    - "curl -I https://kimball-cfgi.kainam.app"
+    - "dig kimball-cfgi.kainam.app"
+acceptance_criteria:
+  - "All Terraform validation tests pass"
+  - "App Runner services healthy"
+  - "Custom domain resolves with HTTPS"
+  - "CI/CD pipeline operational"
+  - "Network connectivity verified"
+  - "No critical security issues"
+
+---
+
+task_id: "CFGI-016"
+title: "Manual Operations Execution"
+description: "Execute and verify all required manual operations"
+agent: "DevOps Engineer"
+status: "Pending"
+dependencies: ["CFGI-001"]
+specifications:
+  manual_operations:
+    - "S3 bucket cfgi-tf-state with versioning"
+    - "DynamoDB table cfgi-tf-state-lock"
+    - "ACM certificate for *.kainam.app"
+    - "DNS validation in Route 53"
+    - "CodeStar connection to GitHub"
+    - "App Runner custom domain setup"
+    - "Initial Docker images to ECR"
+  verification_steps:
+    - "aws s3 ls cfgi-tf-state"
+    - "aws acm list-certificates"
+    - "aws codestar-connections list-connections"
+    - "aws ecr describe-images"
+acceptance_criteria:
+  - "S3 bucket created with versioning"
+  - "ACM certificate validated and issued"
+  - "CodeStar connection authorized"
+  - "Custom domain active in App Runner"
+  - "Initial images pushed to ECR"
+  - "All ARNs documented"
+
+---

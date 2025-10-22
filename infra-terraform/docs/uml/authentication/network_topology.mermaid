@@ -1,0 +1,135 @@
+graph TB
+    subgraph "AWS Cloud - us-east-2"
+        subgraph "kainam-dev-vpc (10.0.0.0/16)"
+            %% Internet Gateway
+            IGW[Internet Gateway<br/>kainam-igw-dev]
+            
+            %% NAT Gateway with EIP
+            EIP[Elastic IP<br/>kainam-nat-eip-dev]
+            
+            %% Availability Zone A
+            subgraph "us-east-2a"
+                subgraph "Public Subnet A"
+                    PubSubA[kainam-public-subnet-a<br/>10.0.1.0/24]
+                    NGW[NAT Gateway<br/>kainam-nat-gw-dev]
+                    ALB_A[Application Load Balancer<br/>Instance A]
+                end
+                
+                subgraph "Private Subnet A"
+                    PrivSubA[kainam-private-subnet-a<br/>10.0.101.0/24]
+                    EC2_A[EC2 Instance A<br/>Keycloak + Auth Services]
+                end
+            end
+            
+            %% Availability Zone B
+            subgraph "us-east-2b"
+                subgraph "Public Subnet B"
+                    PubSubB[kainam-public-subnet-b<br/>10.0.2.0/24]
+                    ALB_B[Application Load Balancer<br/>Instance B]
+                end
+                
+                subgraph "Private Subnet B"
+                    PrivSubB[kainam-private-subnet-b<br/>10.0.102.0/24]
+                    EC2_B[EC2 Instance B<br/>PostgreSQL Database]
+                end
+            end
+            
+            %% Route Tables
+            PubRT[Public Route Table<br/>kainam-public-rt]
+            PrivRT[Private Route Table<br/>kainam-private-rt]
+            
+            %% Security Groups
+            ALBSG[ALB Security Group<br/>kainam-alb-sg<br/>Port 443 HTTPS]
+            WebSG[Web Security Group<br/>kainam-web-sg<br/>ALB + SSH Access]
+            DBSG[Database Security Group<br/>kainam-db-sg<br/>Port 5432 PostgreSQL]
+            
+            %% AWS Services
+            SecretsManager[AWS Secrets Manager<br/>Database & Keycloak Credentials]
+            IAMRole[EC2 IAM Role<br/>keystone-ec2-role<br/>Secrets Access]
+        end
+    end
+    
+    %% External Internet
+    Internet((Internet<br/>End Users))
+    AdminAccess[Developer/Admin<br/>SSH Access<br/>Trusted IPs]
+    
+    %% Main Traffic Flow
+    Internet -->|HTTPS/443| IGW
+    IGW --> ALB_A
+    IGW --> ALB_B
+    ALB_A --> EC2_A
+    ALB_B --> EC2_A
+    
+    %% Database Connection
+    EC2_A -->|PostgreSQL 5432| EC2_B
+    
+    %% NAT Gateway for Outbound
+    EIP --> NGW
+    NGW --> PubSubA
+    EC2_A -->|Outbound Internet| NGW
+    EC2_B -->|Outbound Internet| NGW
+    
+    %% Admin Access
+    AdminAccess -->|SSH/22| EC2_A
+    AdminAccess -->|SSH/22| EC2_B
+    
+    %% Route Table Associations
+    PubRT -.-> PubSubA
+    PubRT -.-> PubSubB
+    PrivRT -.-> PrivSubA
+    PrivRT -.-> PrivSubB
+    
+    %% Routing Rules
+    PubRT -->|0.0.0.0/0| IGW
+    PrivRT -->|0.0.0.0/0| NGW
+    
+    %% Security Group Associations
+    ALBSG -.-> ALB_A
+    ALBSG -.-> ALB_B
+    WebSG -.-> EC2_A
+    DBSG -.-> EC2_B
+    
+    %% AWS Services Integration
+    EC2_A -->|GetSecretValue| SecretsManager
+    IAMRole -.-> EC2_A
+    IAMRole -->|Permissions| SecretsManager
+    
+    %% Application Components
+    subgraph "EC2_A Services"
+        Keycloak[Keycloak<br/>Authentication Server<br/>Port 8080]
+        Docker[Docker Runtime<br/>Container Management]
+        AuthAPI[Authentication API<br/>REST Endpoints]
+    end
+    
+    subgraph "EC2_B Services"
+        PostgreSQL[PostgreSQL Database<br/>User & Session Data<br/>Port 5432]
+    end
+    
+    EC2_A --> Keycloak
+    EC2_A --> Docker
+    EC2_A --> AuthAPI
+    EC2_B --> PostgreSQL
+    
+    Keycloak -->|Database Connection| PostgreSQL
+    AuthAPI -->|Database Connection| PostgreSQL
+    
+    %% Styling
+    classDef publicSubnet fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef privateSubnet fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef gateway fill:#fff3e0,stroke:#e65100,stroke-width:3px
+    classDef routeTable fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef instance fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef securityGroup fill:#ffebee,stroke:#c62828,stroke-width:2px
+    classDef awsService fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    classDef appComponent fill:#e0f2f1,stroke:#00695c,stroke-width:2px
+    classDef externalSource fill:#fce4ec,stroke:#ad1457,stroke-width:2px
+    
+    class PubSubA,PubSubB publicSubnet
+    class PrivSubA,PrivSubB privateSubnet
+    class IGW,NGW,EIP gateway
+    class PubRT,PrivRT routeTable
+    class EC2_A,EC2_B,ALB_A,ALB_B instance
+    class ALBSG,WebSG,DBSG securityGroup
+    class SecretsManager,IAMRole awsService
+    class Keycloak,Docker,AuthAPI,PostgreSQL appComponent
+    class Internet,AdminAccess externalSource

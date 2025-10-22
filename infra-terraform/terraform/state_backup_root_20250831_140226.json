@@ -1,0 +1,3526 @@
+{
+  "version": 4,
+  "terraform_version": "1.12.2",
+  "serial": 9,
+  "lineage": "a4f1507d-4f40-bdf4-4c0e-b6062da0c938",
+  "outputs": {
+    "alb_security_group_id": {
+      "value": "sg-07444d8a1b42f2f64",
+      "type": "string"
+    },
+    "availability_zones": {
+      "value": [
+        "us-east-2a",
+        "us-east-2b"
+      ],
+      "type": [
+        "list",
+        "string"
+      ]
+    },
+    "database_secret_arn": {
+      "value": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/database-3BtVW0",
+      "type": "string",
+      "sensitive": true
+    },
+    "database_secret_name": {
+      "value": "keystone/dev/database",
+      "type": "string"
+    },
+    "db_security_group_id": {
+      "value": "sg-02b85f3478248a587",
+      "type": "string"
+    },
+    "ec2_role_arn": {
+      "value": "arn:aws:iam::592172380963:role/keystone-ec2-role",
+      "type": "string"
+    },
+    "ec2_role_name": {
+      "value": "keystone-ec2-role",
+      "type": "string"
+    },
+    "etl_database_security_group_id": {
+      "value": "sg-00877a61380b477a5",
+      "type": "string"
+    },
+    "etl_external_security_group_id": {
+      "value": "sg-025507d794f354897",
+      "type": "string"
+    },
+    "etl_internal_security_group_id": {
+      "value": "sg-0b9907e8315ec94d1",
+      "type": "string"
+    },
+    "etl_network_summary": {
+      "value": {
+        "availability_zone": "us-east-2a",
+        "resource_count": {
+          "egress_rules": 3,
+          "ingress_rules": 13,
+          "route_associations": 2,
+          "security_groups": 3,
+          "subnets": 2
+        },
+        "security_groups": {
+          "database": {
+            "id": "sg-00877a61380b477a5",
+            "name": "kainam-dev-kimball-etl-db-20250827184613993400000002"
+          },
+          "external": {
+            "id": "sg-025507d794f354897",
+            "name": "kainam-dev-kimball-etl-external-20250827184613994000000003"
+          },
+          "internal": {
+            "id": "sg-0b9907e8315ec94d1",
+            "name": "kainam-dev-kimball-etl-internal-20250827184613993400000001"
+          }
+        },
+        "subnets": {
+          "private": {
+            "cidr": "10.0.103.0/24",
+            "id": "subnet-02b5ec71e038696d5",
+            "name": "kainam-dev-kimball-etl-private-subnet-a"
+          },
+          "public": {
+            "cidr": "10.0.3.0/24",
+            "id": "subnet-0b0854506ca52f3a8",
+            "name": "kainam-dev-kimball-etl-public-subnet-a"
+          }
+        },
+        "vpc_id": "vpc-0c864043de1e33fe8"
+      },
+      "type": [
+        "object",
+        {
+          "availability_zone": "string",
+          "resource_count": [
+            "object",
+            {
+              "egress_rules": "number",
+              "ingress_rules": "number",
+              "route_associations": "number",
+              "security_groups": "number",
+              "subnets": "number"
+            }
+          ],
+          "security_groups": [
+            "object",
+            {
+              "database": [
+                "object",
+                {
+                  "id": "string",
+                  "name": "string"
+                }
+              ],
+              "external": [
+                "object",
+                {
+                  "id": "string",
+                  "name": "string"
+                }
+              ],
+              "internal": [
+                "object",
+                {
+                  "id": "string",
+                  "name": "string"
+                }
+              ]
+            }
+          ],
+          "subnets": [
+            "object",
+            {
+              "private": [
+                "object",
+                {
+                  "cidr": "string",
+                  "id": "string",
+                  "name": "string"
+                }
+              ],
+              "public": [
+                "object",
+                {
+                  "cidr": "string",
+                  "id": "string",
+                  "name": "string"
+                }
+              ]
+            }
+          ],
+          "vpc_id": "string"
+        }
+      ]
+    },
+    "etl_private_subnet_id": {
+      "value": "subnet-02b5ec71e038696d5",
+      "type": "string"
+    },
+    "etl_public_subnet_id": {
+      "value": "subnet-0b0854506ca52f3a8",
+      "type": "string"
+    },
+    "etl_security_group_ids": {
+      "value": {
+        "database": "sg-00877a61380b477a5",
+        "external": "sg-025507d794f354897",
+        "internal": "sg-0b9907e8315ec94d1"
+      },
+      "type": [
+        "object",
+        {
+          "database": "string",
+          "external": "string",
+          "internal": "string"
+        }
+      ]
+    },
+    "etl_subnet_ids": {
+      "value": {
+        "private": "subnet-02b5ec71e038696d5",
+        "public": "subnet-0b0854506ca52f3a8"
+      },
+      "type": [
+        "object",
+        {
+          "private": "string",
+          "public": "string"
+        }
+      ]
+    },
+    "iam_summary": {
+      "value": {
+        "instance_profile": {
+          "arn": "arn:aws:iam::592172380963:instance-profile/keystone-ec2-profile",
+          "name": "keystone-ec2-profile"
+        },
+        "policy": {
+          "arn": "arn:aws:iam::592172380963:policy/keystone-secrets-manager-read-policy",
+          "name": "keystone-secrets-manager-read-policy"
+        },
+        "role": {
+          "arn": "arn:aws:iam::592172380963:role/keystone-ec2-role",
+          "name": "keystone-ec2-role"
+        }
+      },
+      "type": [
+        "object",
+        {
+          "instance_profile": [
+            "object",
+            {
+              "arn": "string",
+              "name": "string"
+            }
+          ],
+          "policy": [
+            "object",
+            {
+              "arn": "string",
+              "name": "string"
+            }
+          ],
+          "role": [
+            "object",
+            {
+              "arn": "string",
+              "name": "string"
+            }
+          ]
+        }
+      ]
+    },
+    "instance_profile_arn": {
+      "value": "arn:aws:iam::592172380963:instance-profile/keystone-ec2-profile",
+      "type": "string"
+    },
+    "instance_profile_name": {
+      "value": "keystone-ec2-profile",
+      "type": "string"
+    },
+    "internet_gateway_id": {
+      "value": "igw-0d5a913e5e70cb44c",
+      "type": "string"
+    },
+    "keycloak_admin_secret_arn": {
+      "value": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/keycloak_admin-6vQrYW",
+      "type": "string",
+      "sensitive": true
+    },
+    "keycloak_admin_secret_name": {
+      "value": "keystone/dev/keycloak_admin",
+      "type": "string"
+    },
+    "nat_gateway_id": {
+      "value": "nat-03745760117305d45",
+      "type": "string"
+    },
+    "nat_gateway_public_ip": {
+      "value": "3.148.131.217",
+      "type": "string"
+    },
+    "private_route_table_id": {
+      "value": "rtb-03d7e6d2cad54674a",
+      "type": "string"
+    },
+    "private_subnet_by_az": {
+      "value": {
+        "us-east-2a": "subnet-075d92a295819c6d1",
+        "us-east-2b": "subnet-00007df721d7618b9"
+      },
+      "type": [
+        "object",
+        {
+          "us-east-2a": "string",
+          "us-east-2b": "string"
+        }
+      ]
+    },
+    "private_subnet_cidrs": {
+      "value": [
+        "10.0.101.0/24",
+        "10.0.102.0/24"
+      ],
+      "type": [
+        "tuple",
+        [
+          "string",
+          "string"
+        ]
+      ]
+    },
+    "private_subnet_ids": {
+      "value": [
+        "subnet-075d92a295819c6d1",
+        "subnet-00007df721d7618b9"
+      ],
+      "type": [
+        "tuple",
+        [
+          "string",
+          "string"
+        ]
+      ]
+    },
+    "public_route_table_id": {
+      "value": "rtb-05898fe1e4cbe1432",
+      "type": "string"
+    },
+    "public_subnet_by_az": {
+      "value": {
+        "us-east-2a": "subnet-05b29d2468a820005",
+        "us-east-2b": "subnet-0f90eb51114680321"
+      },
+      "type": [
+        "object",
+        {
+          "us-east-2a": "string",
+          "us-east-2b": "string"
+        }
+      ]
+    },
+    "public_subnet_cidrs": {
+      "value": [
+        "10.0.1.0/24",
+        "10.0.2.0/24"
+      ],
+      "type": [
+        "tuple",
+        [
+          "string",
+          "string"
+        ]
+      ]
+    },
+    "public_subnet_ids": {
+      "value": [
+        "subnet-05b29d2468a820005",
+        "subnet-0f90eb51114680321"
+      ],
+      "type": [
+        "tuple",
+        [
+          "string",
+          "string"
+        ]
+      ]
+    },
+    "secret_arns": {
+      "value": {
+        "database": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/database-3BtVW0",
+        "keycloak_admin": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/keycloak_admin-6vQrYW"
+      },
+      "type": [
+        "object",
+        {
+          "database": "string",
+          "keycloak_admin": "string"
+        }
+      ],
+      "sensitive": true
+    },
+    "secret_names": {
+      "value": {
+        "database": "keystone/dev/database",
+        "keycloak_admin": "keystone/dev/keycloak_admin"
+      },
+      "type": [
+        "object",
+        {
+          "database": "string",
+          "keycloak_admin": "string"
+        }
+      ]
+    },
+    "secrets_policy_arn": {
+      "value": "arn:aws:iam::592172380963:policy/keystone-secrets-manager-read-policy",
+      "type": "string"
+    },
+    "secrets_summary": {
+      "value": {
+        "count": 2,
+        "secrets": {
+          "database": {
+            "arn": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/database-3BtVW0",
+            "description": "Stores the username and password for the Keystone RDS database.",
+            "name": "keystone/dev/database"
+          },
+          "keycloak_admin": {
+            "arn": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/keycloak_admin-6vQrYW",
+            "description": "Stores the credentials for the Keycloak service account client.",
+            "name": "keystone/dev/keycloak_admin"
+          }
+        }
+      },
+      "type": [
+        "object",
+        {
+          "count": "number",
+          "secrets": [
+            "object",
+            {
+              "database": [
+                "object",
+                {
+                  "arn": "string",
+                  "description": "string",
+                  "name": "string"
+                }
+              ],
+              "keycloak_admin": [
+                "object",
+                {
+                  "arn": "string",
+                  "description": "string",
+                  "name": "string"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "security_group_ids": {
+      "value": {
+        "alb": "sg-07444d8a1b42f2f64",
+        "db": "sg-02b85f3478248a587",
+        "web": "sg-0e19349aa69128ae6"
+      },
+      "type": [
+        "object",
+        {
+          "alb": "string",
+          "db": "string",
+          "web": "string"
+        }
+      ]
+    },
+    "vpc_arn": {
+      "value": "arn:aws:ec2:us-east-2:592172380963:vpc/vpc-0c864043de1e33fe8",
+      "type": "string"
+    },
+    "vpc_cidr_block": {
+      "value": "10.0.0.0/16",
+      "type": "string"
+    },
+    "vpc_id": {
+      "value": "vpc-0c864043de1e33fe8",
+      "type": "string"
+    },
+    "web_security_group_id": {
+      "value": "sg-0e19349aa69128ae6",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "data",
+      "type": "aws_region",
+      "name": "current",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "description": "US East (Ohio)",
+            "endpoint": "ec2.us-east-2.amazonaws.com",
+            "id": "us-east-2",
+            "name": "us-east-2"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_route_table_association",
+      "name": "etl_private",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-0c42d048713465c03",
+            "route_table_id": "rtb-03d7e6d2cad54674a",
+            "subnet_id": "subnet-02b5ec71e038696d5",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.kimball_etl_networking.aws_subnet.etl_private",
+            "module.vpc.aws_eip.nat",
+            "module.vpc.aws_internet_gateway.main",
+            "module.vpc.aws_nat_gateway.main",
+            "module.vpc.aws_route_table.private",
+            "module.vpc.aws_subnet.public",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_route_table_association",
+      "name": "etl_public",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-0ed291e34f1746b9b",
+            "route_table_id": "rtb-05898fe1e4cbe1432",
+            "subnet_id": "subnet-0b0854506ca52f3a8",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.kimball_etl_networking.aws_subnet.etl_public",
+            "module.vpc.aws_internet_gateway.main",
+            "module.vpc.aws_route_table.public",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "etl_database",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group/sg-00877a61380b477a5",
+            "description": "Security group for ETL databases and storage services",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "All outbound traffic from ETL database services",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-00877a61380b477a5",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "10.0.0.0/16"
+                ],
+                "description": "MinIO S3 API internal access",
+                "from_port": 9000,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 9000
+              }
+            ],
+            "name": "kainam-dev-kimball-etl-db-20250827184613993400000002",
+            "name_prefix": "kainam-dev-kimball-etl-db-",
+            "owner_id": "592172380963",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "kimball-etl-networking",
+              "Name": "kainam-dev-kimball-etl-db-sg",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Database"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "kimball-etl-networking",
+              "Name": "kainam-dev-kimball-etl-db-sg",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Database"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "etl_external",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group/sg-025507d794f354897",
+            "description": "Security group for ETL external-facing services (Airflow, MinIO Console, Hive)",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "All outbound traffic from ETL external services",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-025507d794f354897",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "Airflow web interface access",
+                "from_port": 8088,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 8088
+              },
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "HTTP traffic for ETL web interfaces",
+                "from_port": 80,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 80
+              },
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "HTTPS traffic for ETL web interfaces",
+                "from_port": 443,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 443
+              },
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "Hive Metastore service access",
+                "from_port": 9083,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 9083
+              },
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "HiveServer2 SQL query service",
+                "from_port": 10000,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 10000
+              },
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "MinIO web management console",
+                "from_port": 9001,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 9001
+              }
+            ],
+            "name": "kainam-dev-kimball-etl-external-20250827184613994000000003",
+            "name_prefix": "kainam-dev-kimball-etl-external-",
+            "owner_id": "592172380963",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "kimball-etl-networking",
+              "Name": "kainam-dev-kimball-etl-external-sg",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "External"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "kimball-etl-networking",
+              "Name": "kainam-dev-kimball-etl-external-sg",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "External"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "etl_internal",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group/sg-0b9907e8315ec94d1",
+            "description": "Security group for ETL internal cluster communication (Spark)",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "All outbound traffic from ETL internal services",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-0b9907e8315ec94d1",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "10.0.0.0/16"
+                ],
+                "description": "Redis broker for Airflow tasks",
+                "from_port": 6379,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 6379
+              },
+              {
+                "cidr_blocks": [
+                  "10.0.0.0/16"
+                ],
+                "description": "Spark Master coordination port",
+                "from_port": 7077,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 7077
+              },
+              {
+                "cidr_blocks": [
+                  "10.0.0.0/16"
+                ],
+                "description": "Spark Master monitoring UI",
+                "from_port": 8080,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 8080
+              },
+              {
+                "cidr_blocks": [
+                  "10.0.0.0/16"
+                ],
+                "description": "Spark Worker monitoring UI",
+                "from_port": 8081,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 8081
+              },
+              {
+                "cidr_blocks": [
+                  "10.0.0.0/16"
+                ],
+                "description": "Spark dynamic executor ports",
+                "from_port": 40000,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 50000
+              }
+            ],
+            "name": "kainam-dev-kimball-etl-internal-20250827184613993400000001",
+            "name_prefix": "kainam-dev-kimball-etl-internal-",
+            "owner_id": "592172380963",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "kimball-etl-networking",
+              "Name": "kainam-dev-kimball-etl-internal-sg",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Internal"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "kimball-etl-networking",
+              "Name": "kainam-dev-kimball-etl-internal-sg",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Internal"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "etl_private",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:subnet/subnet-02b5ec71e038696d5",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "us-east-2a",
+            "availability_zone_id": "use2-az1",
+            "cidr_block": "10.0.103.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-02b5ec71e038696d5",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": false,
+            "outpost_arn": "",
+            "owner_id": "592172380963",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "kimball-etl-networking",
+              "Name": "kainam-dev-kimball-etl-private-subnet-a",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Private"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "kimball-etl-networking",
+              "Name": "kainam-dev-kimball-etl-private-subnet-a",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Private"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "etl_public",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:subnet/subnet-0b0854506ca52f3a8",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "us-east-2a",
+            "availability_zone_id": "use2-az1",
+            "cidr_block": "10.0.3.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-0b0854506ca52f3a8",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": true,
+            "outpost_arn": "",
+            "owner_id": "592172380963",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "kimball-etl-networking",
+              "Name": "kainam-dev-kimball-etl-public-subnet-a",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Public"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "kimball-etl-networking",
+              "Name": "kainam-dev-kimball-etl-public-subnet-a",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Public"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_egress_rule",
+      "name": "etl_database_egress",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-0018cad75422fdd6a",
+            "cidr_ipv4": "0.0.0.0/0",
+            "cidr_ipv6": null,
+            "description": "All outbound traffic from ETL database services",
+            "from_port": null,
+            "id": "sgr-0018cad75422fdd6a",
+            "ip_protocol": "-1",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-00877a61380b477a5",
+            "security_group_rule_id": "sgr-0018cad75422fdd6a",
+            "tags": {
+              "Name": "ETL Database All Outbound"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL Database All Outbound",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_database",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_egress_rule",
+      "name": "etl_external_egress",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-01fd1601bf02b49c2",
+            "cidr_ipv4": "0.0.0.0/0",
+            "cidr_ipv6": null,
+            "description": "All outbound traffic from ETL external services",
+            "from_port": null,
+            "id": "sgr-01fd1601bf02b49c2",
+            "ip_protocol": "-1",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-025507d794f354897",
+            "security_group_rule_id": "sgr-01fd1601bf02b49c2",
+            "tags": {
+              "Name": "ETL External All Outbound"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL External All Outbound",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_external",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_egress_rule",
+      "name": "etl_internal_egress",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-077e2fa74d834de69",
+            "cidr_ipv4": "0.0.0.0/0",
+            "cidr_ipv6": null,
+            "description": "All outbound traffic from ETL internal services",
+            "from_port": null,
+            "id": "sgr-077e2fa74d834de69",
+            "ip_protocol": "-1",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-0b9907e8315ec94d1",
+            "security_group_rule_id": "sgr-077e2fa74d834de69",
+            "tags": {
+              "Name": "ETL Internal All Outbound"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL Internal All Outbound",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_internal",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "etl_airflow",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-0b6ae8430a52e81bd",
+            "cidr_ipv4": "0.0.0.0/0",
+            "cidr_ipv6": null,
+            "description": "Airflow web interface access",
+            "from_port": 8088,
+            "id": "sgr-0b6ae8430a52e81bd",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-025507d794f354897",
+            "security_group_rule_id": "sgr-0b6ae8430a52e81bd",
+            "tags": {
+              "Name": "ETL Airflow UI"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL Airflow UI",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 8088
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_external",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "etl_hive_metastore",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-03ad5310bab6b126e",
+            "cidr_ipv4": "0.0.0.0/0",
+            "cidr_ipv6": null,
+            "description": "Hive Metastore service access",
+            "from_port": 9083,
+            "id": "sgr-03ad5310bab6b126e",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-025507d794f354897",
+            "security_group_rule_id": "sgr-03ad5310bab6b126e",
+            "tags": {
+              "Name": "ETL Hive Metastore"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL Hive Metastore",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 9083
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_external",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "etl_hive_server2",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-0a5564eecd20d9680",
+            "cidr_ipv4": "0.0.0.0/0",
+            "cidr_ipv6": null,
+            "description": "HiveServer2 SQL query service",
+            "from_port": 10000,
+            "id": "sgr-0a5564eecd20d9680",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-025507d794f354897",
+            "security_group_rule_id": "sgr-0a5564eecd20d9680",
+            "tags": {
+              "Name": "ETL HiveServer2"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL HiveServer2",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 10000
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_external",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "etl_http",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-0a4e749064c8fe5e5",
+            "cidr_ipv4": "0.0.0.0/0",
+            "cidr_ipv6": null,
+            "description": "HTTP traffic for ETL web interfaces",
+            "from_port": 80,
+            "id": "sgr-0a4e749064c8fe5e5",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-025507d794f354897",
+            "security_group_rule_id": "sgr-0a4e749064c8fe5e5",
+            "tags": {
+              "Name": "ETL HTTP Access"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL HTTP Access",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 80
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_external",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "etl_https",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-0b8e755b869ad50a5",
+            "cidr_ipv4": "0.0.0.0/0",
+            "cidr_ipv6": null,
+            "description": "HTTPS traffic for ETL web interfaces",
+            "from_port": 443,
+            "id": "sgr-0b8e755b869ad50a5",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-025507d794f354897",
+            "security_group_rule_id": "sgr-0b8e755b869ad50a5",
+            "tags": {
+              "Name": "ETL HTTPS Access"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL HTTPS Access",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 443
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_external",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "etl_minio_api",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-0e0370178002d13de",
+            "cidr_ipv4": "10.0.0.0/16",
+            "cidr_ipv6": null,
+            "description": "MinIO S3 API internal access",
+            "from_port": 9000,
+            "id": "sgr-0e0370178002d13de",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-00877a61380b477a5",
+            "security_group_rule_id": "sgr-0e0370178002d13de",
+            "tags": {
+              "Name": "ETL MinIO API Internal"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL MinIO API Internal",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 9000
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_database",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "etl_minio_console",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-06b86c3aab8ff888b",
+            "cidr_ipv4": "0.0.0.0/0",
+            "cidr_ipv6": null,
+            "description": "MinIO web management console",
+            "from_port": 9001,
+            "id": "sgr-06b86c3aab8ff888b",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-025507d794f354897",
+            "security_group_rule_id": "sgr-06b86c3aab8ff888b",
+            "tags": {
+              "Name": "ETL MinIO Console"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL MinIO Console",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 9001
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_external",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "etl_redis",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-055cdad4f852996fe",
+            "cidr_ipv4": "10.0.0.0/16",
+            "cidr_ipv6": null,
+            "description": "Redis broker for Airflow tasks",
+            "from_port": 6379,
+            "id": "sgr-055cdad4f852996fe",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-0b9907e8315ec94d1",
+            "security_group_rule_id": "sgr-055cdad4f852996fe",
+            "tags": {
+              "Name": "ETL Redis Internal"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL Redis Internal",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 6379
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_internal",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "etl_spark_executors",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-08f682ee11da5fced",
+            "cidr_ipv4": "10.0.0.0/16",
+            "cidr_ipv6": null,
+            "description": "Spark dynamic executor ports",
+            "from_port": 40000,
+            "id": "sgr-08f682ee11da5fced",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-0b9907e8315ec94d1",
+            "security_group_rule_id": "sgr-08f682ee11da5fced",
+            "tags": {
+              "Name": "ETL Spark Executors"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL Spark Executors",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 50000
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_internal",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "etl_spark_master",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-02f3e810b39c2b36c",
+            "cidr_ipv4": "10.0.0.0/16",
+            "cidr_ipv6": null,
+            "description": "Spark Master coordination port",
+            "from_port": 7077,
+            "id": "sgr-02f3e810b39c2b36c",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-0b9907e8315ec94d1",
+            "security_group_rule_id": "sgr-02f3e810b39c2b36c",
+            "tags": {
+              "Name": "ETL Spark Master"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL Spark Master",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 7077
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_internal",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "etl_spark_master_ui",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-0ac59e55e1635bbc2",
+            "cidr_ipv4": "10.0.0.0/16",
+            "cidr_ipv6": null,
+            "description": "Spark Master monitoring UI",
+            "from_port": 8080,
+            "id": "sgr-0ac59e55e1635bbc2",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-0b9907e8315ec94d1",
+            "security_group_rule_id": "sgr-0ac59e55e1635bbc2",
+            "tags": {
+              "Name": "ETL Spark Master UI"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL Spark Master UI",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 8080
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_internal",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.kimball_etl_networking",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "etl_spark_worker_ui",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-091a017844d030f81",
+            "cidr_ipv4": "10.0.0.0/16",
+            "cidr_ipv6": null,
+            "description": "Spark Worker monitoring UI",
+            "from_port": 8081,
+            "id": "sgr-091a017844d030f81",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-0b9907e8315ec94d1",
+            "security_group_rule_id": "sgr-091a017844d030f81",
+            "tags": {
+              "Name": "ETL Spark Worker UI"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "ETL Spark Worker UI",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 8081
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.kimball_etl_networking.aws_security_group.etl_internal",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.secrets_manager",
+      "mode": "data",
+      "type": "aws_iam_policy_document",
+      "name": "ec2_assume_role",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "2851119427",
+            "json": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      }\n    }\n  ]\n}",
+            "minified_json": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":\"sts:AssumeRole\",\"Principal\":{\"Service\":\"ec2.amazonaws.com\"}}]}",
+            "override_json": null,
+            "override_policy_documents": null,
+            "policy_id": null,
+            "source_json": null,
+            "source_policy_documents": null,
+            "statement": [
+              {
+                "actions": [
+                  "sts:AssumeRole"
+                ],
+                "condition": [],
+                "effect": "Allow",
+                "not_actions": [],
+                "not_principals": [],
+                "not_resources": [],
+                "principals": [
+                  {
+                    "identifiers": [
+                      "ec2.amazonaws.com"
+                    ],
+                    "type": "Service"
+                  }
+                ],
+                "resources": [],
+                "sid": ""
+              }
+            ],
+            "version": "2012-10-17"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "module": "module.secrets_manager",
+      "mode": "data",
+      "type": "aws_iam_policy_document",
+      "name": "secrets_manager_read",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "3641103023",
+            "json": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"secretsmanager:GetSecretValue\",\n        \"secretsmanager:DescribeSecret\"\n      ],\n      \"Resource\": [\n        \"arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/keycloak_admin-6vQrYW\",\n        \"arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/database-3BtVW0\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": \"secretsmanager:ListSecrets\",\n      \"Resource\": \"*\",\n      \"Condition\": {\n        \"StringEquals\": {\n          \"secretsmanager:ResourceTag/Project\": \"keystone\"\n        }\n      }\n    }\n  ]\n}",
+            "minified_json": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"secretsmanager:GetSecretValue\",\"secretsmanager:DescribeSecret\"],\"Resource\":[\"arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/keycloak_admin-6vQrYW\",\"arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/database-3BtVW0\"]},{\"Effect\":\"Allow\",\"Action\":\"secretsmanager:ListSecrets\",\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"secretsmanager:ResourceTag/Project\":\"keystone\"}}}]}",
+            "override_json": null,
+            "override_policy_documents": null,
+            "policy_id": null,
+            "source_json": null,
+            "source_policy_documents": null,
+            "statement": [
+              {
+                "actions": [
+                  "secretsmanager:DescribeSecret",
+                  "secretsmanager:GetSecretValue"
+                ],
+                "condition": [],
+                "effect": "Allow",
+                "not_actions": [],
+                "not_principals": [],
+                "not_resources": [],
+                "principals": [],
+                "resources": [
+                  "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/database-3BtVW0",
+                  "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/keycloak_admin-6vQrYW"
+                ],
+                "sid": ""
+              },
+              {
+                "actions": [
+                  "secretsmanager:ListSecrets"
+                ],
+                "condition": [
+                  {
+                    "test": "StringEquals",
+                    "values": [
+                      "keystone"
+                    ],
+                    "variable": "secretsmanager:ResourceTag/Project"
+                  }
+                ],
+                "effect": "Allow",
+                "not_actions": [],
+                "not_principals": [],
+                "not_resources": [],
+                "principals": [],
+                "resources": [
+                  "*"
+                ],
+                "sid": ""
+              }
+            ],
+            "version": "2012-10-17"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "module": "module.secrets_manager",
+      "mode": "managed",
+      "type": "aws_iam_instance_profile",
+      "name": "keystone_ec2_profile",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::592172380963:instance-profile/keystone-ec2-profile",
+            "create_date": "2025-08-27T20:18:58Z",
+            "id": "keystone-ec2-profile",
+            "name": "keystone-ec2-profile",
+            "name_prefix": "",
+            "path": "/",
+            "role": "keystone-ec2-role",
+            "tags": {
+              "Component": "iam",
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "secrets-manager",
+              "Name": "keystone-ec2-profile",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Purpose": "EC2 Instance Profile for Keystone"
+            },
+            "tags_all": {
+              "Component": "iam",
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "secrets-manager",
+              "Name": "keystone-ec2-profile",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Purpose": "EC2 Instance Profile for Keystone"
+            },
+            "unique_id": "AIPAYTYBZOMRS76VLC6RS"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.secrets_manager.aws_iam_role.keystone_ec2_role",
+            "module.secrets_manager.data.aws_iam_policy_document.ec2_assume_role"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.secrets_manager",
+      "mode": "managed",
+      "type": "aws_iam_policy",
+      "name": "keystone_secrets_manager_read_policy",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::592172380963:policy/keystone-secrets-manager-read-policy",
+            "attachment_count": 1,
+            "description": "Allow reading specific Keystone secrets from AWS Secrets Manager",
+            "id": "arn:aws:iam::592172380963:policy/keystone-secrets-manager-read-policy",
+            "name": "keystone-secrets-manager-read-policy",
+            "name_prefix": "",
+            "path": "/",
+            "policy": "{\"Statement\":[{\"Action\":[\"secretsmanager:GetSecretValue\",\"secretsmanager:DescribeSecret\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/keycloak_admin-6vQrYW\",\"arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/database-3BtVW0\"]},{\"Action\":\"secretsmanager:ListSecrets\",\"Condition\":{\"StringEquals\":{\"secretsmanager:ResourceTag/Project\":\"keystone\"}},\"Effect\":\"Allow\",\"Resource\":\"*\"}],\"Version\":\"2012-10-17\"}",
+            "policy_id": "ANPAYTYBZOMRYW7MSB6OO",
+            "tags": {
+              "Component": "iam",
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "secrets-manager",
+              "Name": "keystone-secrets-manager-read-policy",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Purpose": "Secrets Manager Read Access"
+            },
+            "tags_all": {
+              "Component": "iam",
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "secrets-manager",
+              "Name": "keystone-secrets-manager-read-policy",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Purpose": "Secrets Manager Read Access"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.secrets_manager.aws_secretsmanager_secret.database",
+            "module.secrets_manager.aws_secretsmanager_secret.keycloak_admin",
+            "module.secrets_manager.data.aws_iam_policy_document.secrets_manager_read"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.secrets_manager",
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "keystone_ec2_role",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::592172380963:role/keystone-ec2-role",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"ec2.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2025-08-27T20:18:57Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "keystone-ec2-role",
+            "inline_policy": [],
+            "managed_policy_arns": [
+              "arn:aws:iam::592172380963:policy/keystone-secrets-manager-read-policy"
+            ],
+            "max_session_duration": 3600,
+            "name": "keystone-ec2-role",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": {
+              "Component": "iam",
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "secrets-manager",
+              "Name": "keystone-ec2-role",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Purpose": "EC2 Secrets Manager Access"
+            },
+            "tags_all": {
+              "Component": "iam",
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "secrets-manager",
+              "Name": "keystone-ec2-role",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Purpose": "EC2 Secrets Manager Access"
+            },
+            "unique_id": "AROAYTYBZOMR2SX5FW5RV"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.secrets_manager.data.aws_iam_policy_document.ec2_assume_role"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.secrets_manager",
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "keystone_secrets_attachment",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "keystone-ec2-role-20250827201856982600000005",
+            "policy_arn": "arn:aws:iam::592172380963:policy/keystone-secrets-manager-read-policy",
+            "role": "keystone-ec2-role"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.secrets_manager.aws_iam_policy.keystone_secrets_manager_read_policy",
+            "module.secrets_manager.aws_iam_role.keystone_ec2_role",
+            "module.secrets_manager.aws_secretsmanager_secret.database",
+            "module.secrets_manager.aws_secretsmanager_secret.keycloak_admin",
+            "module.secrets_manager.data.aws_iam_policy_document.ec2_assume_role",
+            "module.secrets_manager.data.aws_iam_policy_document.secrets_manager_read"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.secrets_manager",
+      "mode": "managed",
+      "type": "aws_secretsmanager_secret",
+      "name": "database",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/database-3BtVW0",
+            "description": "Stores the username and password for the Keystone RDS database.",
+            "force_overwrite_replica_secret": false,
+            "id": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/database-3BtVW0",
+            "kms_key_id": "",
+            "name": "keystone/dev/database",
+            "name_prefix": "",
+            "policy": "",
+            "recovery_window_in_days": 7,
+            "replica": [],
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "secrets-manager",
+              "Name": "keystone-dev-database-secret",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Purpose": "RDS Database Credentials",
+              "SecretType": "database"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "secrets-manager",
+              "Name": "keystone-dev-database-secret",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Purpose": "RDS Database Credentials",
+              "SecretType": "database"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.secrets_manager",
+      "mode": "managed",
+      "type": "aws_secretsmanager_secret",
+      "name": "keycloak_admin",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/keycloak_admin-6vQrYW",
+            "description": "Stores the credentials for the Keycloak service account client.",
+            "force_overwrite_replica_secret": false,
+            "id": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/keycloak_admin-6vQrYW",
+            "kms_key_id": "",
+            "name": "keystone/dev/keycloak_admin",
+            "name_prefix": "",
+            "policy": "",
+            "recovery_window_in_days": 7,
+            "replica": [],
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "secrets-manager",
+              "Name": "keystone-dev-keycloak-admin-secret",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Purpose": "Keycloak Admin Credentials",
+              "SecretType": "application"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "secrets-manager",
+              "Name": "keystone-dev-keycloak-admin-secret",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Purpose": "Keycloak Admin Credentials",
+              "SecretType": "application"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.secrets_manager",
+      "mode": "managed",
+      "type": "aws_secretsmanager_secret_version",
+      "name": "database",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/database-3BtVW0",
+            "has_secret_string_wo": null,
+            "id": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/database-3BtVW0|terraform-20250827201856411700000003",
+            "secret_binary": "",
+            "secret_id": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/database-3BtVW0",
+            "secret_string": "{\"password\":\"800rsfpxlP5VP4tZ\",\"username\":\"admin\"}",
+            "secret_string_wo": null,
+            "secret_string_wo_version": null,
+            "version_id": "terraform-20250827201856411700000003",
+            "version_stages": [
+              "AWSCURRENT"
+            ]
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "secret_binary"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "secret_string"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "secret_string_wo"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.secrets_manager.aws_secretsmanager_secret.database"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.secrets_manager",
+      "mode": "managed",
+      "type": "aws_secretsmanager_secret_version",
+      "name": "keycloak_admin",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/keycloak_admin-6vQrYW",
+            "has_secret_string_wo": null,
+            "id": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/keycloak_admin-6vQrYW|terraform-20250827201856430100000004",
+            "secret_binary": "",
+            "secret_id": "arn:aws:secretsmanager:us-east-2:592172380963:secret:keystone/dev/keycloak_admin-6vQrYW",
+            "secret_string": "{\"password\":\"QXRKjtKdIGlRchoE\",\"username\":\"admin-cli\"}",
+            "secret_string_wo": null,
+            "secret_string_wo_version": null,
+            "version_id": "terraform-20250827201856430100000004",
+            "version_stages": [
+              "AWSCURRENT"
+            ]
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "secret_binary"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "secret_string"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "secret_string_wo"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.secrets_manager.aws_secretsmanager_secret.keycloak_admin"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.security_groups",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "alb",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group/sg-07444d8a1b42f2f64",
+            "description": "Security group for Application Load Balancer - allows public HTTPS traffic",
+            "egress": [
+              {
+                "cidr_blocks": [],
+                "description": "Allow traffic to web tier security group",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [
+                  "sg-0e19349aa69128ae6"
+                ],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-07444d8a1b42f2f64",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "Allow HTTPS traffic from internet",
+                "from_port": 443,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 443
+              }
+            ],
+            "name": "kainam-dev-alb-sg",
+            "name_prefix": "",
+            "owner_id": "592172380963",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "security-groups",
+              "Name": "kainam-dev-alb-sg",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Load Balancer"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "security-groups",
+              "Name": "kainam-dev-alb-sg",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Load Balancer"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.security_groups",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "db",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group/sg-02b85f3478248a587",
+            "description": "Security group for database tier - allows traffic only from web tier",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "Allow all outbound traffic",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-02b85f3478248a587",
+            "ingress": [
+              {
+                "cidr_blocks": [],
+                "description": "Allow PostgreSQL access from web tier security group",
+                "from_port": 5432,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [
+                  "sg-0e19349aa69128ae6"
+                ],
+                "self": false,
+                "to_port": 5432
+              }
+            ],
+            "name": "kainam-dev-db-sg",
+            "name_prefix": "",
+            "owner_id": "592172380963",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "security-groups",
+              "Name": "kainam-dev-db-sg",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Database"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "security-groups",
+              "Name": "kainam-dev-db-sg",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Database"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.security_groups",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "web",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group/sg-0e19349aa69128ae6",
+            "description": "Security group for web tier (EC2 instances) - allows traffic from ALB and SSH from trusted sources",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "Allow all outbound traffic",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-0e19349aa69128ae6",
+            "ingress": [
+              {
+                "cidr_blocks": [],
+                "description": "Allow all traffic from ALB security group",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [
+                  "sg-07444d8a1b42f2f64"
+                ],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "name": "kainam-dev-web-sg",
+            "name_prefix": "",
+            "owner_id": "592172380963",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "security-groups",
+              "Name": "kainam-dev-web-sg",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Web/Application"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "security-groups",
+              "Name": "kainam-dev-web-sg",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Web/Application"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.security_groups",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_egress_rule",
+      "name": "alb_to_web",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-0ca53298edd0c7457",
+            "cidr_ipv4": null,
+            "cidr_ipv6": null,
+            "description": "Allow traffic to web tier security group",
+            "from_port": null,
+            "id": "sgr-0ca53298edd0c7457",
+            "ip_protocol": "-1",
+            "prefix_list_id": null,
+            "referenced_security_group_id": "sg-0e19349aa69128ae6",
+            "security_group_id": "sg-07444d8a1b42f2f64",
+            "security_group_rule_id": "sgr-0ca53298edd0c7457",
+            "tags": {
+              "Name": "alb-to-web-egress"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "alb-to-web-egress",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.security_groups.aws_security_group.alb",
+            "module.security_groups.aws_security_group.web",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.security_groups",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_egress_rule",
+      "name": "db_all_outbound",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-0813e23ea2fed89c0",
+            "cidr_ipv4": "0.0.0.0/0",
+            "cidr_ipv6": null,
+            "description": "Allow all outbound traffic",
+            "from_port": null,
+            "id": "sgr-0813e23ea2fed89c0",
+            "ip_protocol": "-1",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-02b85f3478248a587",
+            "security_group_rule_id": "sgr-0813e23ea2fed89c0",
+            "tags": {
+              "Name": "db-all-outbound-egress"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "db-all-outbound-egress",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.security_groups.aws_security_group.db",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.security_groups",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_egress_rule",
+      "name": "web_all_outbound",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-0a855c566d1cf28a0",
+            "cidr_ipv4": "0.0.0.0/0",
+            "cidr_ipv6": null,
+            "description": "Allow all outbound traffic",
+            "from_port": null,
+            "id": "sgr-0a855c566d1cf28a0",
+            "ip_protocol": "-1",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-0e19349aa69128ae6",
+            "security_group_rule_id": "sgr-0a855c566d1cf28a0",
+            "tags": {
+              "Name": "web-all-outbound-egress"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "web-all-outbound-egress",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.security_groups.aws_security_group.web",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.security_groups",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "alb_https",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-0789eb7115d06ea02",
+            "cidr_ipv4": "0.0.0.0/0",
+            "cidr_ipv6": null,
+            "description": "Allow HTTPS traffic from internet",
+            "from_port": 443,
+            "id": "sgr-0789eb7115d06ea02",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": null,
+            "security_group_id": "sg-07444d8a1b42f2f64",
+            "security_group_rule_id": "sgr-0789eb7115d06ea02",
+            "tags": {
+              "Name": "alb-https-ingress"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "alb-https-ingress",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 443
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.security_groups.aws_security_group.alb",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.security_groups",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "db_from_web",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-07e77f16fae012a90",
+            "cidr_ipv4": null,
+            "cidr_ipv6": null,
+            "description": "Allow PostgreSQL access from web tier security group",
+            "from_port": 5432,
+            "id": "sgr-07e77f16fae012a90",
+            "ip_protocol": "tcp",
+            "prefix_list_id": null,
+            "referenced_security_group_id": "sg-0e19349aa69128ae6",
+            "security_group_id": "sg-02b85f3478248a587",
+            "security_group_rule_id": "sgr-07e77f16fae012a90",
+            "tags": {
+              "Name": "db-from-web-ingress"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "db-from-web-ingress",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": 5432
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.security_groups.aws_security_group.db",
+            "module.security_groups.aws_security_group.web",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.security_groups",
+      "mode": "managed",
+      "type": "aws_vpc_security_group_ingress_rule",
+      "name": "web_from_alb",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:security-group-rule/sgr-0eac4808cc6811a14",
+            "cidr_ipv4": null,
+            "cidr_ipv6": null,
+            "description": "Allow all traffic from ALB security group",
+            "from_port": null,
+            "id": "sgr-0eac4808cc6811a14",
+            "ip_protocol": "-1",
+            "prefix_list_id": null,
+            "referenced_security_group_id": "sg-07444d8a1b42f2f64",
+            "security_group_id": "sg-0e19349aa69128ae6",
+            "security_group_rule_id": "sgr-0eac4808cc6811a14",
+            "tags": {
+              "Name": "web-from-alb-ingress"
+            },
+            "tags_all": {
+              "ManagedBy": "Terraform",
+              "Name": "web-from-alb-ingress",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "to_port": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.security_groups.aws_security_group.alb",
+            "module.security_groups.aws_security_group.web",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_eip",
+      "name": "nat",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address": null,
+            "allocation_id": "eipalloc-043f20c774abaa97e",
+            "arn": "arn:aws:ec2:us-east-2:592172380963:elastic-ip/eipalloc-043f20c774abaa97e",
+            "associate_with_private_ip": null,
+            "association_id": "eipassoc-0bf701af2a4a73b71",
+            "carrier_ip": "",
+            "customer_owned_ip": "",
+            "customer_owned_ipv4_pool": "",
+            "domain": "vpc",
+            "id": "eipalloc-043f20c774abaa97e",
+            "instance": "",
+            "ipam_pool_id": null,
+            "network_border_group": "us-east-2",
+            "network_interface": "eni-044167ce51954cd6a",
+            "private_dns": "ip-10-0-1-94.us-east-2.compute.internal",
+            "private_ip": "10.0.1.94",
+            "ptr_record": "",
+            "public_dns": "ec2-3-148-131-217.us-east-2.compute.amazonaws.com",
+            "public_ip": "3.148.131.217",
+            "public_ipv4_pool": "amazon",
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-nat-eip",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-nat-eip",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "timeouts": null,
+            "vpc": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiZGVsZXRlIjoxODAwMDAwMDAwMDAsInJlYWQiOjkwMDAwMDAwMDAwMCwidXBkYXRlIjozMDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "module.vpc.aws_internet_gateway.main",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_internet_gateway",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:internet-gateway/igw-0d5a913e5e70cb44c",
+            "id": "igw-0d5a913e5e70cb44c",
+            "owner_id": "592172380963",
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-igw",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-igw",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_nat_gateway",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "allocation_id": "eipalloc-043f20c774abaa97e",
+            "association_id": "eipassoc-0bf701af2a4a73b71",
+            "connectivity_type": "public",
+            "id": "nat-03745760117305d45",
+            "network_interface_id": "eni-044167ce51954cd6a",
+            "private_ip": "10.0.1.94",
+            "public_ip": "3.148.131.217",
+            "secondary_allocation_ids": [],
+            "secondary_private_ip_address_count": 0,
+            "secondary_private_ip_addresses": [],
+            "subnet_id": "subnet-05b29d2468a820005",
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-nat-gw",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-nat-gw",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTgwMDAwMDAwMDAwMCwidXBkYXRlIjo2MDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "module.vpc.aws_eip.nat",
+            "module.vpc.aws_internet_gateway.main",
+            "module.vpc.aws_subnet.public",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_route_table",
+      "name": "private",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:route-table/rtb-03d7e6d2cad54674a",
+            "id": "rtb-03d7e6d2cad54674a",
+            "owner_id": "592172380963",
+            "propagating_vgws": [],
+            "route": [
+              {
+                "carrier_gateway_id": "",
+                "cidr_block": "0.0.0.0/0",
+                "core_network_arn": "",
+                "destination_prefix_list_id": "",
+                "egress_only_gateway_id": "",
+                "gateway_id": "",
+                "ipv6_cidr_block": "",
+                "local_gateway_id": "",
+                "nat_gateway_id": "nat-03745760117305d45",
+                "network_interface_id": "",
+                "transit_gateway_id": "",
+                "vpc_endpoint_id": "",
+                "vpc_peering_connection_id": ""
+              }
+            ],
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-private-rt",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Type": "Private"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-private-rt",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Type": "Private"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_eip.nat",
+            "module.vpc.aws_internet_gateway.main",
+            "module.vpc.aws_nat_gateway.main",
+            "module.vpc.aws_subnet.public",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_route_table",
+      "name": "public",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:route-table/rtb-05898fe1e4cbe1432",
+            "id": "rtb-05898fe1e4cbe1432",
+            "owner_id": "592172380963",
+            "propagating_vgws": [],
+            "route": [
+              {
+                "carrier_gateway_id": "",
+                "cidr_block": "0.0.0.0/0",
+                "core_network_arn": "",
+                "destination_prefix_list_id": "",
+                "egress_only_gateway_id": "",
+                "gateway_id": "igw-0d5a913e5e70cb44c",
+                "ipv6_cidr_block": "",
+                "local_gateway_id": "",
+                "nat_gateway_id": "",
+                "network_interface_id": "",
+                "transit_gateway_id": "",
+                "vpc_endpoint_id": "",
+                "vpc_peering_connection_id": ""
+              }
+            ],
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-public-rt",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Type": "Public"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-public-rt",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Type": "Public"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_internet_gateway.main",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_route_table_association",
+      "name": "private",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-02224ddab4045d8f9",
+            "route_table_id": "rtb-03d7e6d2cad54674a",
+            "subnet_id": "subnet-075d92a295819c6d1",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_eip.nat",
+            "module.vpc.aws_internet_gateway.main",
+            "module.vpc.aws_nat_gateway.main",
+            "module.vpc.aws_route_table.private",
+            "module.vpc.aws_subnet.private",
+            "module.vpc.aws_subnet.public",
+            "module.vpc.aws_vpc.main"
+          ]
+        },
+        {
+          "index_key": 1,
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-0dfd1a0308971c2cb",
+            "route_table_id": "rtb-03d7e6d2cad54674a",
+            "subnet_id": "subnet-00007df721d7618b9",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_eip.nat",
+            "module.vpc.aws_internet_gateway.main",
+            "module.vpc.aws_nat_gateway.main",
+            "module.vpc.aws_route_table.private",
+            "module.vpc.aws_subnet.private",
+            "module.vpc.aws_subnet.public",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_route_table_association",
+      "name": "public",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-0439fbb97cd9dfb76",
+            "route_table_id": "rtb-05898fe1e4cbe1432",
+            "subnet_id": "subnet-05b29d2468a820005",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_internet_gateway.main",
+            "module.vpc.aws_route_table.public",
+            "module.vpc.aws_subnet.public",
+            "module.vpc.aws_vpc.main"
+          ]
+        },
+        {
+          "index_key": 1,
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-093632beae459712e",
+            "route_table_id": "rtb-05898fe1e4cbe1432",
+            "subnet_id": "subnet-0f90eb51114680321",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_internet_gateway.main",
+            "module.vpc.aws_route_table.public",
+            "module.vpc.aws_subnet.public",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "private",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:subnet/subnet-075d92a295819c6d1",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "us-east-2a",
+            "availability_zone_id": "use2-az1",
+            "cidr_block": "10.0.101.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-075d92a295819c6d1",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": false,
+            "outpost_arn": "",
+            "owner_id": "592172380963",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-private-subnet-a",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Backend",
+              "Type": "Private"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-private-subnet-a",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Backend",
+              "Type": "Private"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        },
+        {
+          "index_key": 1,
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:subnet/subnet-00007df721d7618b9",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "us-east-2b",
+            "availability_zone_id": "use2-az2",
+            "cidr_block": "10.0.102.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-00007df721d7618b9",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": false,
+            "outpost_arn": "",
+            "owner_id": "592172380963",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-private-subnet-b",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Backend",
+              "Type": "Private"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-private-subnet-b",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Backend",
+              "Type": "Private"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "public",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:subnet/subnet-05b29d2468a820005",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "us-east-2a",
+            "availability_zone_id": "use2-az1",
+            "cidr_block": "10.0.1.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-05b29d2468a820005",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": true,
+            "outpost_arn": "",
+            "owner_id": "592172380963",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-public-subnet-a",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Frontend",
+              "Type": "Public"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-public-subnet-a",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Frontend",
+              "Type": "Public"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        },
+        {
+          "index_key": 1,
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:subnet/subnet-0f90eb51114680321",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "us-east-2b",
+            "availability_zone_id": "use2-az2",
+            "cidr_block": "10.0.2.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-0f90eb51114680321",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": true,
+            "outpost_arn": "",
+            "owner_id": "592172380963",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-public-subnet-b",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Frontend",
+              "Type": "Public"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-public-subnet-b",
+              "Owner": "DevOps",
+              "Project": "kainam",
+              "Tier": "Frontend",
+              "Type": "Public"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0c864043de1e33fe8"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_vpc",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-2:592172380963:vpc/vpc-0c864043de1e33fe8",
+            "assign_generated_ipv6_cidr_block": false,
+            "cidr_block": "10.0.0.0/16",
+            "default_network_acl_id": "acl-09855aa7beb634428",
+            "default_route_table_id": "rtb-05831d1834ea54372",
+            "default_security_group_id": "sg-0d1a9ac44e488f27e",
+            "dhcp_options_id": "dopt-020a2b2315aa07c8d",
+            "enable_dns_hostnames": true,
+            "enable_dns_support": true,
+            "enable_network_address_usage_metrics": false,
+            "id": "vpc-0c864043de1e33fe8",
+            "instance_tenancy": "default",
+            "ipv4_ipam_pool_id": null,
+            "ipv4_netmask_length": null,
+            "ipv6_association_id": "",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_network_border_group": "",
+            "ipv6_ipam_pool_id": "",
+            "ipv6_netmask_length": 0,
+            "main_route_table_id": "rtb-05831d1834ea54372",
+            "owner_id": "592172380963",
+            "tags": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-vpc",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "ManagedBy": "Terraform",
+              "Module": "vpc",
+              "Name": "kainam-dev-vpc",
+              "Owner": "DevOps",
+              "Project": "kainam"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    }
+  ],
+  "check_results": [
+    {
+      "object_kind": "var",
+      "config_addr": "module.kimball_etl_networking.var.vpc_id",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.kimball_etl_networking.var.vpc_id",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.secrets_manager.var.keycloak_password",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.secrets_manager.var.keycloak_password",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.secrets_manager.var.rds_password",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.secrets_manager.var.rds_password",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "var.keycloak_password",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "var.keycloak_password",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "var.environment",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "var.environment",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.vpc.var.availability_zones",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.vpc.var.availability_zones",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.kimball_etl_networking.var.vpc_cidr",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.kimball_etl_networking.var.vpc_cidr",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.kimball_etl_networking.var.private_route_table_id",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.kimball_etl_networking.var.private_route_table_id",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.kimball_etl_networking.var.public_route_table_id",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.kimball_etl_networking.var.public_route_table_id",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.kimball_etl_networking.var.project_name",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.kimball_etl_networking.var.project_name",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.vpc.var.vpc_cidr",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.vpc.var.vpc_cidr",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.kimball_etl_networking.var.environment",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.kimball_etl_networking.var.environment",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.secrets_manager.var.environment",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.secrets_manager.var.environment",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.kimball_etl_networking.var.etl_public_subnet_cidr",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.kimball_etl_networking.var.etl_public_subnet_cidr",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.kimball_etl_networking.var.etl_private_subnet_cidr",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.kimball_etl_networking.var.etl_private_subnet_cidr",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.vpc.var.private_subnet_cidrs",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.vpc.var.private_subnet_cidrs",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "var.rds_password",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "var.rds_password",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.security_groups.var.environment",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.security_groups.var.environment",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.secrets_manager.var.recovery_window_in_days",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.secrets_manager.var.recovery_window_in_days",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.kimball_etl_networking.var.availability_zone",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.kimball_etl_networking.var.availability_zone",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.secrets_manager.var.project_name",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.secrets_manager.var.project_name",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.kimball_etl_networking.var.trusted_ip_ranges",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.kimball_etl_networking.var.trusted_ip_ranges",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.vpc.var.environment",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.vpc.var.environment",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.vpc.var.public_subnet_cidrs",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.vpc.var.public_subnet_cidrs",
+          "status": "pass"
+        }
+      ]
+    }
+  ]
+}
+

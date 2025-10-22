@@ -1,0 +1,183 @@
+graph TB
+    subgraph "Authentication System VPC Resource Map"
+        subgraph "Core VPC Infrastructure"
+            VPC[🏢 kainam-dev-vpc<br/>CIDR: 10.0.0.0/16<br/>Region: us-east-2<br/>DNS Hostnames: Enabled]
+        end
+        
+        subgraph "Network Gateways & Connectivity"
+            IGW[🌐 Internet Gateway<br/>kainam-igw-dev<br/>Public Internet Access]
+            EIP[⚡ Elastic IP<br/>kainam-nat-eip-dev<br/>Static Public IP]
+            NGW[🔀 NAT Gateway<br/>kainam-nat-gw-dev<br/>Outbound Internet for Private]
+        end
+        
+        subgraph "Authentication Subnets"
+            subgraph "Public Tier (Load Balancers)"
+                PubSubA[🌍 Public Subnet A<br/>kainam-public-subnet-a<br/>CIDR: 10.0.1.0/24<br/>AZ: us-east-2a<br/>Auto-assign Public IP: Yes]
+                PubSubB[🌍 Public Subnet B<br/>kainam-public-subnet-b<br/>CIDR: 10.0.2.0/24<br/>AZ: us-east-2b<br/>Auto-assign Public IP: Yes]
+            end
+            
+            subgraph "Private Tier (Applications & Database)"
+                PrivSubA[🔒 Private Subnet A<br/>kainam-private-subnet-a<br/>CIDR: 10.0.101.0/24<br/>AZ: us-east-2a<br/>Internet via NAT Gateway]
+                PrivSubB[🔒 Private Subnet B<br/>kainam-private-subnet-b<br/>CIDR: 10.0.102.0/24<br/>AZ: us-east-2b<br/>Internet via NAT Gateway]
+            end
+        end
+        
+        subgraph "Route Tables & Traffic Control"
+            PubRT[📍 Public Route Table<br/>kainam-public-rt<br/>Route: 0.0.0.0/0 → IGW<br/>Associated: Public Subnets]
+            PrivRT[📍 Private Route Table<br/>kainam-private-rt<br/>Route: 0.0.0.0/0 → NGW<br/>Associated: Private Subnets]
+        end
+        
+        subgraph "Security Groups (Firewall Rules)"
+            ALBSG[🛡️ ALB Security Group<br/>kainam-alb-sg<br/>🔽 In: 443/tcp from 0.0.0.0/0<br/>🔼 Out: All traffic<br/>Purpose: Public HTTPS access]
+            
+            WebSG[🛡️ Web Security Group<br/>kainam-web-sg<br/>🔽 In: All/tcp from alb-sg<br/>🔽 In: 22/tcp from trusted IPs<br/>🔽 In: 8080/tcp from alb-sg<br/>🔼 Out: All traffic<br/>Purpose: Auth services & SSH]
+            
+            DBSG[🛡️ Database Security Group<br/>kainam-db-sg<br/>🔽 In: 5432/tcp from web-sg<br/>🔽 In: 22/tcp from trusted IPs<br/>🔼 Out: All traffic<br/>Purpose: PostgreSQL & DB admin]
+        end
+        
+        subgraph "IAM Security & Access Management"
+            EC2Role[👤 EC2 IAM Role<br/>keystone-ec2-role<br/>Service: EC2<br/>Purpose: Instance permissions]
+            
+            SecretsPolicy[📋 Secrets Manager Policy<br/>keystone-secrets-manager-read-policy<br/>Actions: GetSecretValue, DescribeSecret, ListSecrets<br/>Resources: keystone/dev/* secrets]
+            
+            InstanceProfile[🔐 Instance Profile<br/>keystone-ec2-profile<br/>Role: keystone-ec2-role<br/>Purpose: EC2 → AWS Services]
+        end
+        
+        subgraph "Secrets Management (Credentials)"
+            DBSecret[🔑 Database Secret<br/>keystone/dev/database<br/>Keys: username, password<br/>Database: PostgreSQL credentials]
+            
+            KCSecret[🔑 Keycloak Admin Secret<br/>keystone/dev/keycloak_admin<br/>Keys: username, password<br/>Service: Keycloak admin access]
+        end
+        
+        subgraph "Application Resources"
+            subgraph "Compute Instances"
+                EC2Auth[💻 EC2 Authentication Instance<br/>Subnet: Private<br/>Services: Keycloak, Docker<br/>Security Group: web-sg<br/>IAM Role: keystone-ec2-role]
+                
+                EC2DB[🗄️ EC2 Database Instance<br/>Subnet: Private<br/>Services: PostgreSQL<br/>Security Group: db-sg<br/>Storage: EBS volumes]
+            end
+            
+            subgraph "Load Balancing"
+                ALB[⚖️ Application Load Balancer<br/>Subnets: Public A & B<br/>Security Group: alb-sg<br/>Scheme: Internet-facing<br/>Target: EC2 Auth Instance]
+            end
+        end
+    end
+    
+    subgraph "Terraform Module Architecture"
+        VPCModule[📦 VPC Module<br/>modules/vpc/<br/>Creates: VPC, Subnets, Gateways, Route Tables]
+        
+        SGModule[📦 Security Groups Module<br/>modules/security-groups/<br/>Creates: ALB, Web, DB Security Groups]
+        
+        SecretsModule[📦 Secrets Manager Module<br/>modules/secrets-manager/<br/>Creates: Secrets, IAM Role, Policies]
+    end
+    
+    %% Core VPC Infrastructure Relationships
+    VPC --> IGW
+    VPC --> PubSubA
+    VPC --> PubSubB
+    VPC --> PrivSubA
+    VPC --> PrivSubB
+    VPC --> ALBSG
+    VPC --> WebSG
+    VPC --> DBSG
+    
+    %% Gateway and Connectivity
+    EIP --> NGW
+    NGW --> PubSubA
+    IGW --> PubSubA
+    IGW --> PubSubB
+    
+    %% Route Table Associations
+    PubRT -.-> PubSubA
+    PubRT -.-> PubSubB
+    PubRT --> IGW
+    PrivRT -.-> PrivSubA
+    PrivRT -.-> PrivSubB
+    PrivRT --> NGW
+    
+    %% Security Group Flow
+    ALBSG --> WebSG
+    WebSG --> DBSG
+    
+    %% IAM and Secrets Relationships
+    EC2Role --> SecretsPolicy
+    EC2Role --> InstanceProfile
+    InstanceProfile --> DBSecret
+    InstanceProfile --> KCSecret
+    
+    %% Application Deployment
+    EC2Auth --> PrivSubA
+    EC2Auth --> WebSG
+    EC2Auth --> InstanceProfile
+    EC2DB --> PrivSubB
+    EC2DB --> DBSG
+    ALB --> PubSubA
+    ALB --> PubSubB
+    ALB --> ALBSG
+    ALB --> EC2Auth
+    
+    %% Application Services Connection
+    EC2Auth -->|PostgreSQL 5432| EC2DB
+    EC2Auth -->|GetSecretValue| DBSecret
+    EC2Auth -->|GetSecretValue| KCSecret
+    
+    %% Module Mappings
+    VPCModule -.-> VPC
+    VPCModule -.-> IGW
+    VPCModule -.-> NGW
+    VPCModule -.-> EIP
+    VPCModule -.-> PubSubA
+    VPCModule -.-> PubSubB
+    VPCModule -.-> PrivSubA
+    VPCModule -.-> PrivSubB
+    VPCModule -.-> PubRT
+    VPCModule -.-> PrivRT
+    
+    SGModule -.-> ALBSG
+    SGModule -.-> WebSG
+    SGModule -.-> DBSG
+    
+    SecretsModule -.-> EC2Role
+    SecretsModule -.-> SecretsPolicy
+    SecretsModule -.-> InstanceProfile
+    SecretsModule -.-> DBSecret
+    SecretsModule -.-> KCSecret
+    
+    %% Resource State & Dependencies
+    subgraph "Deployment Status"
+        DeployedResources[✅ Deployed Resources<br/>VPC, Subnets, Gateways<br/>Security Groups, Secrets<br/>IAM Role & Policies]
+        
+        PendingResources[⏳ Pending Resources<br/>EC2 Instances<br/>Application Load Balancer<br/>Auto Scaling Groups]
+        
+        TechDebt[⚠️ Technical Debt<br/>No Terraform State Locking<br/>Manual EC2 Management<br/>Manual SSL Configuration]
+    end
+    
+    %% Legend
+    subgraph "Resource Types"
+        LEG_NETWORK[🌐 Network Infrastructure]
+        LEG_SECURITY[🛡️ Security & Access Control]
+        LEG_COMPUTE[💻 Compute & Storage]
+        LEG_IDENTITY[👤 Identity & Access Management]
+        LEG_SECRETS[🔑 Secrets & Credentials]
+        LEG_MODULE[📦 Terraform Modules]
+    end
+    
+    %% Styling
+    classDef vpc fill:#e1f5fe,stroke:#01579b,stroke-width:3px
+    classDef publicResource fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    classDef privateResource fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef securityResource fill:#ffebee,stroke:#c62828,stroke-width:2px
+    classDef iamResource fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef computeResource fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    classDef moduleResource fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef statusResource fill:#fff8e1,stroke:#f57f17,stroke-width:2px
+    classDef legend fill:#f5f5f5,stroke:#757575,stroke-width:1px
+    
+    class VPC vpc
+    class PubSubA,PubSubB,IGW,PubRT publicResource
+    class PrivSubA,PrivSubB,NGW,EIP,PrivRT privateResource
+    class ALBSG,WebSG,DBSG securityResource
+    class EC2Role,SecretsPolicy,InstanceProfile,DBSecret,KCSecret iamResource
+    class EC2Auth,EC2DB,ALB computeResource
+    class VPCModule,SGModule,SecretsModule moduleResource
+    class DeployedResources,PendingResources,TechDebt statusResource
+    class LEG_NETWORK,LEG_SECURITY,LEG_COMPUTE,LEG_IDENTITY,LEG_SECRETS,LEG_MODULE legend
