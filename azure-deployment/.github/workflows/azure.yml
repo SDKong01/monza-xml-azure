@@ -1,0 +1,63 @@
+name: deploy-aca
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'azure-deployment/**'
+      - '.github/workflows/azure.yml'
+      - 'Dockerfile'
+      - 'src/**'
+      - 'requirements.txt'
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  TF_IN_AUTOMATION: true
+  TF_INPUT: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: azure-deployment/terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Read ACR outputs (after first terraform apply has created infra)
+        id: tfout
+        run: |
+          echo "ACR_NAME=$(terraform output -raw acr_name)" >> $GITHUB_ENV
+          echo "ACR_SERVER=$(terraform output -raw acr_login_server)" >> $GITHUB_ENV
+          echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      - name: Docker build & push to ACR
+        run: |
+          az acr login --name "$ACR_NAME"
+          docker build -t "$ACR_SERVER/monza-xml:${IMAGE_TAG}" .
+          docker push "$ACR_SERVER/monza-xml:${IMAGE_TAG}"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.5
+
+      - name: Terraform init (Blob backend)
+        run: terraform init -backend-config="key=dev.tfstate"
+
+      - name: Terraform apply (update image tag)
+        run: terraform apply -auto-approve \
+               -var="environment=dev" \
+               -var="app_name=monza-xml" \
+               -var="location=eastus" \
+               -var="image_tag=${IMAGE_TAG}"
